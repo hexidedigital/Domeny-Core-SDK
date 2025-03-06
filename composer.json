@@ -1,0 +1,20 @@
+{
+    "name": "hexidedigital/domeny-core-sdk",
+    "description": "SDK for internal project",
+    "autoload": {
+        "psr-4": {
+            "Hexidedigital\\DomenyCoreSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Illia Volynets",
+            "email": "volynets.i@hexide-digital.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/support": "^9.0 || ^10.0 || ^11.0"
+    }
+}

@@ -1,0 +1,13 @@
+.idea
+.phpunit.result.cache
+build
+composer.lock
+coverage
+docs
+phpunit.xml
+/.phpunit.cache
+phpstan.neon
+vendor
+node_modules
+.DS_Store
+/package-tests
