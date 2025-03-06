@@ -1,0 +1,47 @@
+[2025-03-06 16:12:28] production.ERROR: The /home/nxthing/Projects/Domeny/DomenyCoreSDK/bootstrap/cache directory must be present and writable. {"exception":"[object] (Exception(code: 0): The /home/nxthing/Projects/Domeny/DomenyCoreSDK/bootstrap/cache directory must be present and writable. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php:179)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(132): Illuminate\\Foundation\\PackageManifest->write()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(108): Illuminate\\Foundation\\PackageManifest->build()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(91): Illuminate\\Foundation\\PackageManifest->getManifest()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/PackageManifest.php(80): Illuminate\\Foundation\\PackageManifest->config()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/RegisterFacades.php(26): Illuminate\\Foundation\\PackageManifest->aliases()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(342): Illuminate\\Foundation\\Bootstrap\\RegisterFacades->bootstrap()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(35): Illuminate\\Foundation\\Application->bootstrapWith()
+#7 {main}
+"} 
+[2025-03-06 16:16:55] production.ERROR: cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/v1/domains?paginate=0 {"exception":"[object] (GuzzleHttp\\Exception\\ConnectException(code: 0): cURL error 6: Could not resolve host: api (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for api/v1/domains?paginate=0 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:275)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(205): GuzzleHttp\\Handler\\CurlFactory::createRejection()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(157): GuzzleHttp\\Handler\\CurlFactory::finishError()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlHandler.php(47): GuzzleHttp\\Handler\\CurlFactory::finish()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(28): GuzzleHttp\\Handler\\CurlHandler->__invoke()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(48): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php(35): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(31): GuzzleHttp\\PrepareBodyMiddleware->__invoke()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php(71): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(66): GuzzleHttp\\RedirectMiddleware->__invoke()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/HandlerStack.php(75): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(333): GuzzleHttp\\HandlerStack->__invoke()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(169): GuzzleHttp\\Client->transfer()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync()
+#13 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(44): GuzzleHttp\\Client->request()
+#14 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(14): GuzzleHttp\\Client->get()
+#15 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(18): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->index()
+#16 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(8): testDomains()
+#17 {main}
+"} 
+[2025-03-06 16:51:49] production.ERROR: Too few arguments to function Hexidedigital\DomenyCoreSdk\Classes\ApiClients\DomainApiClient::paginate(), 0 passed in /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php on line 11 and at least 1 expected {"exception":"[object] (ArgumentCountError(code: 0): Too few arguments to function Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient::paginate(), 0 passed in /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php on line 11 and at least 1 expected at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php:31)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->paginate()
+#1 {main}
+"} 
+[2025-03-06 17:33:31] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter::__construct(): Argument #6 ($status) must be of type ?string, Hexidedigital\DomenyCoreSdk\Enums\DomainStatus given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php on line 31 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::__construct(): Argument #6 ($status) must be of type ?string, Hexidedigital\\DomenyCoreSdk\\Enums\\DomainStatus given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php on line 31 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:10)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php(31): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(33): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray()
+#2 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(32): Illuminate\\Support\\Arr::map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->index()
+#6 {main}
+"} 

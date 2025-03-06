@@ -9,12 +9,22 @@
     "authors": [
         {
             "name": "Illia Volynets",
-            "email": "volynets.i@hexide-digital.com"
+            "email": "volynets.i@hexide-digital.com",
+            "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.0",
-        "illuminate/support": "^9.0 || ^10.0 || ^11.0"
+        "illuminate/support": "^9.0 || ^10.0 || ^11.0",
+        "laravel/framework": "^10.0 || ^11.0 || ^12.0",
+        "archtechx/enums": "^1.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hexidedigital\\DomenyCoreSdk\\DomenyCoreSDKServiceProvider"
+            ]
+        }
     }
 }
