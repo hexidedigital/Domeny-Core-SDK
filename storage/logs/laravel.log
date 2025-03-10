@@ -45,3 +45,157 @@
 #5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->index()
 #6 {main}
 "} 
+[2025-03-10 11:54:11] production.ERROR: Typed property Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter::$response must not be accessed before initialization {"exception":"[object] (Error(code: 0): Typed property Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::$response must not be accessed before initialization at /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-03-10 11:54:26] production.ERROR: Typed property Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter::$response must not be accessed before initialization {"exception":"[object] (Error(code: 0): Typed property Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::$response must not be accessed before initialization at /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-03-10 11:56:40] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter::fromArray(): Argument #1 ($data) must be of type array, int given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php on line 62 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray(): Argument #1 ($data) must be of type array, int given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php on line 62 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:29)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(62): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray()
+#1 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(61): Illuminate\\Support\\Arr::map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(31): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(59): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->paginate()
+#7 {main}
+"} 
+[2025-03-10 11:57:15] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter::fromArray(): Argument #1 ($data) must be of type array, int given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php on line 62 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray(): Argument #1 ($data) must be of type array, int given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php on line 62 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:29)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(62): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray()
+#1 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(61): Illuminate\\Support\\Arr::map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(31): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(59): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->paginate()
+#7 {main}
+"} 
+[2025-03-10 11:58:40] production.ERROR: Undefined array key "id" {"exception":"[object] (ErrorException(code: 0): Undefined array key \"id\" at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:32)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php(32): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(62): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(31): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(59): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->paginate()
+#6 {main}
+"} 
+[2025-03-10 11:59:25] production.ERROR: Undefined property: Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter::$data {"exception":"[object] (ErrorException(code: 0): Undefined property: Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::$data at /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php:13)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(13): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#2 {main}
+"} 
+[2025-03-10 11:59:32] production.ERROR: Cannot use object of type Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter as array {"exception":"[object] (Error(code: 0): Cannot use object of type Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter as array at /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php:13)
+[stacktrace]
+#0 {main}
+"} 
+[2025-03-10 11:59:43] production.ERROR: Property [data] does not exist on this collection instance. {"exception":"[object] (Exception(code: 0): Property [data] does not exist on this collection instance. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php:1042)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(13): Illuminate\\Support\\Collection->__get()
+#1 {main}
+"} 
+[2025-03-10 12:32:02] production.ERROR: Interface "Hexidedigital\DomenyCoreSdk\Classes\Adapters\Iterator" not found {"exception":"[object] (Error(code: 0): Interface \"Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Iterator\" not found at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php:8)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/composer/ClassLoader.php(571): include()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/composer/ClassLoader.php(428): Composer\\Autoload\\includeFile()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/PaginatedResponseAdapter.php(8): Composer\\Autoload\\ClassLoader->loadClass()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/composer/ClassLoader.php(571): include('...')
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/composer/ClassLoader.php(428): Composer\\Autoload\\includeFile()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(60): Composer\\Autoload\\ClassLoader->loadClass()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->paginate()
+#7 {main}
+"} 
+[2025-03-10 12:43:48] production.ERROR: syntax error, unexpected token ";", expecting "}" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \";\", expecting \"}\" at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/DomainZones/DomainZoneModelAdapter.php:43)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/composer/ClassLoader.php(428): Composer\\Autoload\\includeFile()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php(49): Composer\\Autoload\\ClassLoader->loadClass()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(35): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray()
+#3 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(34): Illuminate\\Support\\Arr::map()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(32): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
+#9 {main}
+"} 
+[2025-03-10 12:47:30] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter::__construct(): Argument #15 ($domain_zone) must be of type ?Hexidedigital\DomenyCoreSdk\Classes\Adapters\DomainZones\DomainZoneModelAdapter, Hexidedigital\DomenyCoreSdk\Classes\Adapters\BaseAdapter given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php on line 34 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::__construct(): Argument #15 ($domain_zone) must be of type ?Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\DomainZones\\DomainZoneModelAdapter, Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php on line 34 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:11)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(35): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::fromArray()
+#2 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(34): Illuminate\\Support\\Arr::map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(32): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
+#8 {main}
+"} 
+[2025-03-10 12:48:30] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter::__construct(): Argument #15 ($domain_zone) must be of type ?Hexidedigital\DomenyCoreSdk\Classes\Adapters\DomainZones\DomainZoneModelAdapter, array given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 23 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::__construct(): Argument #15 ($domain_zone) must be of type ?Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\DomainZones\\DomainZoneModelAdapter, array given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 23 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:12)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(23): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(35): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#2 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(34): Illuminate\\Support\\Arr::map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(32): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
+#8 {main}
+"} 
+[2025-03-10 12:52:20] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter::__construct(): Argument #10 ($user_status) must be of type ?bool, Closure given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 21 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::__construct(): Argument #10 ($user_status) must be of type ?bool, Closure given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 21 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:12)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(21): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(35): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#2 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(34): Illuminate\\Support\\Arr::map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(32): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
+#8 {main}
+"} 
+[2025-03-10 13:17:14] production.ERROR: Undefined property type: 'Hexidedigital\DomenyCoreSdk\Classes\Adapters\DomainZones\DomainZoneModelAdapter' {"exception":"[object] (Exception(code: 0): Undefined property type: 'Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\DomainZones\\DomainZoneModelAdapter' at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php:65)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(47): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::tryToParseClassProperty()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(21): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::parseProperty()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(37): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#3 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(36): Illuminate\\Support\\Arr::map()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
+#9 {main}
+"} 
+[2025-03-10 13:17:21] production.ERROR: Undefined property type: 'Hexidedigital\DomenyCoreSdk\Classes\Adapters\DomainZones\DomainZoneModelAdapter' {"exception":"[object] (Exception(code: 0): Undefined property type: 'Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\DomainZones\\DomainZoneModelAdapter' at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php:65)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(47): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::tryToParseClassProperty()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(21): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::parseProperty()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(37): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#3 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(36): Illuminate\\Support\\Arr::map()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
+#9 {main}
+"} 
+[2025-03-10 13:17:32] production.ERROR: Undefined property type: 'Hexidedigital\DomenyCoreSdk\Classes\Adapters\DomainZones\DomainZoneModelAdapter' {"exception":"[object] (Exception(code: 0): Undefined property type: 'Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\DomainZones\\DomainZoneModelAdapter' at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php:65)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(47): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::tryToParseClassProperty()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(21): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::parseProperty()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(37): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#3 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(36): Illuminate\\Support\\Arr::map()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
+#9 {main}
+"} 

@@ -2,14 +2,18 @@
 
 namespace Hexidedigital\DomenyCoreSdk\Classes\ApiClients;
 
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter;
+use Hexidedigital\DomenyCoreSdk\Classes\Adapters\PaginatedResponseAdapter;
+use Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter;
 use Illuminate\Support\Arr;
 
 class DomainApiClient extends BaseApiClient
 {
     /**
      * @throws GuzzleException
+     * @throws Exception
      */
     public function all(
         ?string $search = null,
@@ -27,13 +31,18 @@ class DomainApiClient extends BaseApiClient
             )
         ]);
 
-        $data = json_decode($response->getBody()->getContents(), true);
-
-        return collect(Arr::map($data, function ($item) {
-            return DomainModelAdapter::fromArray($item);
-        }));
+        return ResponseAdapter::fromResponse(
+            $response,
+            fn ($data) => Arr::map($data, function ($item) {
+                return DomainModelAdapter::fromArray($item);
+            })
+        );
     }
 
+    /**
+     * @throws GuzzleException
+     * @throws Exception
+     */
     public function paginate(
         int $perPage = 15,
         int $page = 1,
@@ -54,7 +63,15 @@ class DomainApiClient extends BaseApiClient
             )
         ]);
 
-        return $response->getBody()->getContents();
+        return PaginatedResponseAdapter::fromResponse(
+            $response,
+            function ($data) {
+                $data['data'] = Arr::map($data['data'], function ($item) {
+                    return DomainModelAdapter::fromArray($item);
+                });
+                return $data;
+            }
+        );
     }
 
     protected function prepareFilterQuery(

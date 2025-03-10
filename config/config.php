@@ -7,5 +7,7 @@ return [
         'domains' => [
             'index' => 'api/v1/domains',
         ],
-    ]
+    ],
+
+    'throw_exception_for_adapters' => false,
 ];
