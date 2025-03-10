@@ -2,19 +2,28 @@
 
 namespace Hexidedigital\DomenyCoreSdk\Classes\Adapters;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Support\Collection;
 use Iterator;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * @template T
+ */
 class ResponseAdapter implements Iterator
 {
-    private const SUCCESS_CODES = [200];
-    public Collection $response;
+    protected const SUCCESS_CODES = [200];
+
+    /** @var Collection<T>|T|null */
+    public Collection|BaseAdapter|null $response;
     public int $statusCode;
     protected int $position = 0;
 
+    /**
+     * @param Collection<T>|T|null $response
+     */
     public function __construct(
-        Collection $response,
+        Collection|BaseAdapter|null $response,
         int $statusCode = 200,
     ) {
         $this->response = $response;
@@ -22,10 +31,21 @@ class ResponseAdapter implements Iterator
         $this->position = 0;
     }
 
-    public static function fromResponse(ResponseInterface $response, ?callable $map = null): self
+    public function isSuccessful(): bool
     {
-        if (! in_array($response->getStatusCode(), self::SUCCESS_CODES)) {
-            return new self(collect([]), $response->getStatusCode());
+        return in_array($this->statusCode, self::SUCCESS_CODES);
+    }
+
+    /**
+     * @template U
+     * @param callable(array):U|null $map
+     * @return ResponseAdapter<U>
+     */
+    public static function fromResponse(ResponseInterface $response, ?callable $map = null): static
+    {
+        if (! in_array($response->getStatusCode(), static::SUCCESS_CODES)) {
+            $data = json_decode($response->getBody()->getContents(), true);
+            return new static($data, $response->getStatusCode());
         }
 
         $data = json_decode($response->getBody()->getContents(), true);
@@ -34,9 +54,20 @@ class ResponseAdapter implements Iterator
             $data = $map($data);
         }
 
-        return new static(collect($data), $response->getStatusCode());
+        return new static($data, $response->getStatusCode());
     }
 
+    public static function fromError(ClientException $exception): static
+    {
+        return new static(
+            response: collect(json_decode($exception->getResponse()->getBody()->getContents(), true)),
+            statusCode: $exception->getCode()
+        );
+    }
+
+    /**
+     * @return T
+     */
     public function current(): mixed
     {
         return $this->response[$this->position];

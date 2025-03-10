@@ -7,11 +7,12 @@ use GuzzleHttp\Exception\GuzzleException;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\PaginatedResponseAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class DomainApiClient extends BaseApiClient
 {
     /**
+     * @return ResponseAdapter<DomainModelAdapter[]>|ResponseAdapter<Collection<DomainModelAdapter>>
      * @throws GuzzleException
      * @throws Exception
      */
@@ -33,13 +34,17 @@ class DomainApiClient extends BaseApiClient
 
         return ResponseAdapter::fromResponse(
             $response,
-            fn ($data) => Arr::map($data, function ($item) {
+            /**
+             * @return Collection<DomainModelAdapter>
+             */
+            fn ($data) => collect($data)->map(function ($item) {
                 return DomainModelAdapter::fromArray($item);
             })
         );
     }
 
     /**
+     * @return ResponseAdapter<DomainModelAdapter[]>|ResponseAdapter<Collection<DomainModelAdapter>>
      * @throws GuzzleException
      * @throws Exception
      */
@@ -66,11 +71,11 @@ class DomainApiClient extends BaseApiClient
         return PaginatedResponseAdapter::fromResponse(
             $response,
             function ($data) {
-                $data['data'] = Arr::map($data['data'], function ($item) {
+                $data['data'] = collect($data['data'])->map(function ($item) {
                     return DomainModelAdapter::fromArray($item);
                 });
-                return $data;
-            }
+                return collect($data);
+            },
         );
     }
 

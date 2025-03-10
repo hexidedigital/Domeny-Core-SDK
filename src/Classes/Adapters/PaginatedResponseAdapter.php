@@ -3,8 +3,10 @@
 namespace Hexidedigital\DomenyCoreSdk\Classes\Adapters;
 
 use Illuminate\Support\Collection;
-use Iterator;
 
+/**
+ * @template T
+ */
 class PaginatedResponseAdapter extends ResponseAdapter
 {
     public function __construct(Collection $response, int $statusCode = 200)

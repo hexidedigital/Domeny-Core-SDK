@@ -42,7 +42,6 @@ abstract class BaseAdapter
             'array'     => (array)$value,
 
             Carbon::class       => Carbon::parse($value),
-            DomainStatus::class => DomainStatus::from($value),
 
             default => static::tryToParseClassProperty($value, $type),
         };

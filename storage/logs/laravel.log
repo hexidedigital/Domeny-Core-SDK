@@ -199,3 +199,562 @@
 #8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->all()
 #9 {main}
 "} 
+[2025-03-10 13:42:33] production.ERROR: Passing in the "body" request option as an array to send a request is not supported. Please use the "form_params" request option to send a application/x-www-form-urlencoded request, or the "multipart" request option to send a multipart/form-data request. {"exception":"[object] (GuzzleHttp\\Exception\\InvalidArgumentException(code: 0): Passing in the \"body\" request option as an array to send a request is not supported. Please use the \"form_params\" request option to send a application/x-www-form-urlencoded request, or the \"multipart\" request option to send a multipart/form-data request. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php:477)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(163): GuzzleHttp\\Client->invalidBody()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(13): GuzzleHttp\\Client->post()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->login()
+#5 {main}
+"} 
+[2025-03-10 13:44:15] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\BaseAdapter::fromArray(): Argument #1 ($data) must be of type array, string given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php on line 23 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray(): Argument #1 ($data) must be of type array, string given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php on line 23 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php:15)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(23): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#1 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(22): Illuminate\\Support\\Arr::map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(34): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(20): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->login()
+#7 {main}
+"} 
+[2025-03-10 13:47:21] production.ERROR: Client error: `POST http://127.0.0.1:8000/api/v1/user/login` resulted in a `400 Bad Request` response:
+{"message":"api_labels.wrong_args","code":400,"error":"error_codes.400","path":"api\/v1\/user\/login"}
+ {"exception":"[object] (GuzzleHttp\\Exception\\ClientException(code: 400): Client error: `POST http://127.0.0.1:8000/api/v1/user/login` resulted in a `400 Bad Request` response:
+{\"message\":\"api_labels.wrong_args\",\"code\":400,\"error\":\"error_codes.400\",\"path\":\"api\\/v1\\/user\\/login\"}
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(13): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->login()
+#13 {main}
+"} 
+[2025-03-10 13:48:11] production.ERROR: Undefined variable $response {"exception":"[object] (ErrorException(code: 0): Undefined variable $response at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php:22)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(22): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->login()
+#3 {main}
+"} 
+[2025-03-10 14:00:23] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter::__construct(): Argument #1 ($response) must be of type Illuminate\Support\Collection, array given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php on line 43 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::__construct(): Argument #1 ($response) must be of type Illuminate\\Support\\Collection, array given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php on line 43 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php:17)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(43): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(28): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromError()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->login()
+#3 {main}
+"} 
+[2025-03-10 14:20:47] production.ERROR: Property [id] does not exist on this collection instance. {"exception":"[object] (Exception(code: 0): Property [id] does not exist on this collection instance. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php:1042)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(14): Illuminate\\Support\\Collection->__get()
+#1 {main}
+"} 
+[2025-03-10 14:23:06] production.ERROR: Cannot assign Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter to property Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter::$response of type Illuminate\Support\Collection {"exception":"[object] (TypeError(code: 0): Cannot assign Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Users\\UserModelAdapter to property Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::$response of type Illuminate\\Support\\Collection at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php:21)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(44): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(31): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(11): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->login()
+#3 {main}
+"} 
+[2025-03-10 14:23:38] production.ERROR: Property [id] does not exist on this collection instance. {"exception":"[object] (Exception(code: 0): Property [id] does not exist on this collection instance. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php:1042)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(14): Illuminate\\Support\\Collection->__get()
+#1 {main}
+"} 
+[2025-03-10 14:41:38] production.ERROR: Property [id] does not exist on this collection instance. {"exception":"[object] (Exception(code: 0): Property [id] does not exist on this collection instance. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php:1042)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(21): Illuminate\\Support\\Collection->__get()
+#1 {main}
+"} 
+[2025-03-10 14:43:18] production.ERROR: Property [id] does not exist on this collection instance. {"exception":"[object] (Exception(code: 0): Property [id] does not exist on this collection instance. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php:1042)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(21): Illuminate\\Support\\Collection->__get()
+#1 {main}
+"} 
+[2025-03-10 15:11:49] production.ERROR: Unknown named parameter $isCollection {"exception":"[object] (Error(code: 0): Unknown named parameter $isCollection at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php:30)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(12): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->show()
+#1 {main}
+"} 
+[2025-03-10 15:12:20] production.ERROR: Undefined constant Hexidedigital\DomenyCoreSdk\Classes\Adapters\PaginatedResponseAdapter::SUCCESS_CODES {"exception":"[object] (Error(code: 0): Undefined constant Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\PaginatedResponseAdapter::SUCCESS_CODES at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php:46)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(71): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(20): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->paginate()
+#2 {main}
+"} 
+[2025-03-10 15:12:33] production.ERROR: Trying to access array offset on int {"exception":"[object] (ErrorException(code: 0): Trying to access array offset on int at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php:74)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(74): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#2 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Collection.php(799): Illuminate\\Support\\Arr::map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(73): Illuminate\\Support\\Collection->map()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/ResponseAdapter.php(54): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/DomainApiClient.php(71): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\ResponseAdapter::fromResponse()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(20): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\DomainApiClient->paginate()
+#9 {main}
+"} 
+[2025-03-10 15:14:15] production.ERROR: Property [meta] does not exist on this collection instance. {"exception":"[object] (Exception(code: 0): Property [meta] does not exist on this collection instance. at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php:1042)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(21): Illuminate\\Support\\Collection->__get()
+#1 {main}
+"} 
+[2025-03-10 15:56:45] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains\DomainModelAdapter::__construct(): Argument #2 ($domain_zone_id) must be of type int, null given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 27 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter::__construct(): Argument #2 ($domain_zone_id) must be of type int, null given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 27 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Domains/DomainModelAdapter.php:12)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(27): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Domains\\DomainModelAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(15): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#2 {main}
+"} 
+[2025-03-10 16:00:10] production.ERROR: cURL error 7: Failed to connect to 127.0.0.1 port 8000 after 0 ms: Connection refused (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:8000/api/v1/user/query {"exception":"[object] (GuzzleHttp\\Exception\\ConnectException(code: 0): cURL error 7: Failed to connect to 127.0.0.1 port 8000 after 0 ms: Connection refused (see https://curl.haxx.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:8000/api/v1/user/query at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:275)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(205): GuzzleHttp\\Handler\\CurlFactory::createRejection()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php(157): GuzzleHttp\\Handler\\CurlFactory::finishError()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/CurlHandler.php(47): GuzzleHttp\\Handler\\CurlFactory::finish()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(28): GuzzleHttp\\Handler\\CurlHandler->__invoke()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Handler/Proxy.php(48): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php(64): GuzzleHttp\\Handler\\Proxy::GuzzleHttp\\Handler\\{closure}()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(31): GuzzleHttp\\PrepareBodyMiddleware->__invoke()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php(71): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(66): GuzzleHttp\\RedirectMiddleware->__invoke()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/HandlerStack.php(75): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(333): GuzzleHttp\\HandlerStack->__invoke()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(169): GuzzleHttp\\Client->transfer()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Client->requestAsync()
+#13 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#14 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#15 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#16 {main}
+"} 
+[2025-03-10 16:03:51] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:04:26] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+Error: Call to undefined function App\Api\v1\Http\Controllers\typeOf( (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+Error: Call to undefined function App\\Api\\v1\\Http\\Controllers\\typeOf( (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:04:37] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+TypeError: get_class(): Argument #1 ($object) must be of type object, (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+TypeError: get_class(): Argument #1 ($object) must be of type object, (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:05:46] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Undefined array key &quot;column&quot; in file /home/ (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Undefined array key &quot;column&quot; in file /home/ (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:06:58] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:08:02] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:09:38] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+TypeError: json_decode(): Argument #1 ($json) must be of type string, (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:10:29] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Attempt to read property &quot;column&quot; on array  (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Attempt to read property &quot;column&quot; on array  (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:10:43] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Undefined variable $type in file /home/nxthing/Projec (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Undefined variable $type in file /home/nxthing/Projec (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:10:51] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Undefined array key &quot;type&quot; in file /home/nx (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Undefined array key &quot;type&quot; in file /home/nx (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/UserApiClient.php(16): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(16): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:19:56] production.ERROR: Undefined property: Hexidedigital\DomenyCoreSdk\Classes\ApiClients\UserApiClient::$type {"exception":"[object] (ErrorException(code: 0): Undefined property: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\UserApiClient::$type at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php:40)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(40): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->Illuminate\\Foundation\\Bootstrap\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(19): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->first()
+#3 {main}
+"} 
+[2025-03-10 16:30:38] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Undefined array key &quot;value&quot; in file /home/n (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Undefined array key &quot;value&quot; in file /home/n (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(29): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(19): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:31:31] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Undefined array key &quot;value&quot; in file /home/n (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Undefined array key &quot;value&quot; in file /home/n (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(29): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(19): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:32:36] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Undefined array key &quot;operator&quot; in file /hom (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Undefined array key &quot;operator&quot; in file /hom (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(29): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(19): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:33:16] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+ErrorException: Undefined array key &quot;value&quot; in file /home/n (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+ErrorException: Undefined array key &quot;value&quot; in file /home/n (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(29): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(19): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:34:51] production.ERROR: Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang="en" class="auto">
+<!--
+TypeError: Symfony\Component\HttpFoundation\Response::setContent(): A (truncated...)
+ {"exception":"[object] (GuzzleHttp\\Exception\\ServerException(code: 500): Server error: `POST http://127.0.0.1:8000/api/v1/user/query` resulted in a `500 Internal Server Error` response:
+<!DOCTYPE html>
+<html lang=\"en\" class=\"auto\">
+<!--
+TypeError: Symfony\\Component\\HttpFoundation\\Response::setContent(): A (truncated...)
+ at /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Middleware.php(72): GuzzleHttp\\Exception\\RequestException::create()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(209): GuzzleHttp\\Middleware::GuzzleHttp\\{closure}()
+#2 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(158): GuzzleHttp\\Promise\\Promise::callHandler()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/TaskQueue.php(52): GuzzleHttp\\Promise\\Promise::GuzzleHttp\\Promise\\{closure}()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(251): GuzzleHttp\\Promise\\TaskQueue->run()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(227): GuzzleHttp\\Promise\\Promise->invokeWaitFn()
+#6 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(272): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#7 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(229): GuzzleHttp\\Promise\\Promise->invokeWaitList()
+#8 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/promises/src/Promise.php(69): GuzzleHttp\\Promise\\Promise->waitIfPending()
+#9 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/Client.php(189): GuzzleHttp\\Promise\\Promise->wait()
+#10 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\\Client->request()
+#11 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(29): GuzzleHttp\\Client->post()
+#12 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(19): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->get()
+#13 {main}
+"} 
+[2025-03-10 16:43:32] production.ERROR: Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter::__construct(): Argument #1 ($id) must be of type int, null given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 27 {"exception":"[object] (TypeError(code: 0): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Users\\UserModelAdapter::__construct(): Argument #1 ($id) must be of type int, null given, called in /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php on line 27 at /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/Users/UserModelAdapter.php:9)
+[stacktrace]
+#0 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/Adapters/BaseAdapter.php(27): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\Users\\UserModelAdapter->__construct()
+#1 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(39): Hexidedigital\\DomenyCoreSdk\\Classes\\Adapters\\BaseAdapter::fromArray()
+#2 [internal function]: Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\{closure}()
+#3 /home/nxthing/Projects/Domeny/DomenyCoreSDK/vendor/laravel/framework/src/Illuminate/Collections/Arr.php(609): array_map()
+#4 /home/nxthing/Projects/Domeny/DomenyCoreSDK/src/Classes/ApiClients/BaseApiClient.php(39): Illuminate\\Support\\Arr::map()
+#5 /home/nxthing/Projects/Domeny/DomenyCoreSDK/package-tests/index.php(19): Hexidedigital\\DomenyCoreSdk\\Classes\\ApiClients\\BaseApiClient->get()
+#6 {main}
+"} 
