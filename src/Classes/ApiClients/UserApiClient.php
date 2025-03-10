@@ -8,6 +8,9 @@ use GuzzleHttp\Exception\GuzzleException;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\ResponseAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter;
 
+/**
+ * @extends BaseApiClient<UserModelAdapter>
+ */
 class UserApiClient extends BaseApiClient
 {
     public function __construct()
@@ -51,7 +54,7 @@ class UserApiClient extends BaseApiClient
         } catch (ClientException $exception) {
             return ResponseAdapter::fromError($exception);
         }
-//        dd(json_decode($response->getBody()->getContents(), true));
+
         return ResponseAdapter::fromResponse(
             $response,
             fn ($data) => UserModelAdapter::fromArray($data),
