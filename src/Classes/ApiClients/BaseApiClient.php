@@ -15,7 +15,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 abstract class BaseApiClient
 {
     protected Client $client;
+    protected array $rawResponseMethods = [
+        'exists',
+        'delete',
+    ];
 
+    protected array $parentRelationData = [];
     protected array $whereConditions = [];
     protected array $loadingRelations = [];
     protected array $order = [];
@@ -52,31 +57,38 @@ abstract class BaseApiClient
      * @param string $query_method
      * @param array $additional
      * @param bool $isSingleElement
-     * @return T|T[]|LengthAwarePaginator<T>
+     * @return T|T[]|LengthAwarePaginator<T>|bool
      * @throws GuzzleException
      * @throws ErrorResponseException
      */
-    private function run(string $query_method, array $additional = [], bool $isSingleElement = false)
+    private function runQuery(string $query_method, array $additional = [], bool $isSingleElement = false)
     {
         try {
+            $conditions = $this->getConditions();
+            $relations = $this->getRelations();
+            $order = $this->getOrder();
+            $limit = $this->getLimit();
             $response = $this->client->post($this->apiPath, [
                 'json' => [
-                    'conditions' => $this->getConditions(),
+                    'conditions' => $conditions,
                     'query_method' => $query_method,
-                    'relations' => $this->getRelations(),
-                    'order' => $this->getOrder(),
-                    'limit' => $this->getLimit(),
+                    'relations' => $relations,
+                    'order' => $order,
+                    'limit' => $limit,
                     ...$additional
                 ]
             ]);
             $data = json_decode($response->getBody()->getContents(), true);
 
             $this->clearQuery();
+            if (in_array($query_method, $this->rawResponseMethods)) {
+                return $data;
+            }
             $classString = $this->adapterClass;
             if (!$isSingleElement) {
                 if ($query_method == 'paginate') {
                     return new LengthAwarePaginator(
-                        items: Arr::map($data['data'], fn ($item) => call_user_func("$classString::fromArray", $item)),
+                        items: Arr::map($data['data'], fn ($item) => call_user_func("$classString::fromArray", $item, $relations)),
                         total: $data['total'] ?? null,
                         perPage: $data['per_page'] ?? null,
                         currentPage: $data['current_page'] ?? null,
@@ -84,14 +96,91 @@ abstract class BaseApiClient
                     );
                 }
 
-                return Arr::map($data, fn ($item) => call_user_func("$classString::fromArray", $item));
+                return Arr::map($data, fn ($item) => call_user_func("$classString::fromArray", $item, $relations));
             } else {
-                return call_user_func("$classString::fromArray", $data);
+                if (empty($data)) {
+                    return null;
+                }
+                return call_user_func("$classString::fromArray", $data, $relations);
             }
         } catch (ClientException $exception) {
             $this->clearQuery();
             throw new ErrorResponseException($exception->getResponse());
         }
+    }
+
+    /**
+     * @param string $query_method
+     * @param array $data
+     * @param bool $rawResult
+     * @return T|null
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function runChangeData(string $query_method, array $data, bool $rawResult = false)
+    {
+        $data = array_merge($this->parentRelationData, $data);
+        $conditions = $this->getConditions();
+
+        try {
+            $response = $this->client->post($this->apiPath, [
+                'json' => [
+                    'query_method' => $query_method,
+                    'conditions' => $conditions,
+                    'data' => $data,
+                ]
+            ]);
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (empty($data)) {
+                return null;
+            }
+
+            if ($rawResult) {
+                return $data;
+            }
+
+            $classString = $this->adapterClass;
+
+            return call_user_func("$classString::fromArray", $data);
+        } catch (ClientException $exception) {
+            $this->clearQuery();
+            throw new ErrorResponseException($exception->getResponse());
+        }
+    }
+
+    /**
+     * @param array $data
+     * @return T
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function create(array $data)
+    {
+        return $this->runChangeData("create", $data);
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function update(array $data): bool
+    {
+        return (bool) $this->runChangeData('update', $data, rawResult: true);
+    }
+
+    /**
+     * @param $id
+     * @param array $data
+     * @return T
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function updateSingle($id, array $data)
+    {
+        return $this->where('id', $id)->runChangeData('updateSingle', $data);
     }
 
     /**
@@ -101,7 +190,27 @@ abstract class BaseApiClient
      */
     public function get(): array
     {
-        return $this->run('get');
+        return $this->runQuery('get');
+    }
+
+    /**
+     * @return bool
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function exists(): bool
+    {
+        return (bool) $this->runQuery('exists');
+    }
+
+    /**
+     * @return bool
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function delete(): bool
+    {
+        return (bool) $this->runQuery('delete');
     }
 
     /**
@@ -111,7 +220,7 @@ abstract class BaseApiClient
      */
     public function first(): mixed
     {
-        return $this->run('first', isSingleElement: true);
+        return $this->runQuery('first', isSingleElement: true);
     }
 
     /**
@@ -123,7 +232,7 @@ abstract class BaseApiClient
      */
     public function paginate(int $perPage = 15, int $page = 1): LengthAwarePaginator
     {
-        return $this->run('paginate', ['pagination' => ['per_page' => $perPage, 'page' => $page]]);
+        return $this->runQuery('paginate', ['pagination' => ['per_page' => $perPage, 'page' => $page]]);
     }
 
     /**
@@ -420,5 +529,28 @@ abstract class BaseApiClient
     public function orderByDesc($column): static
     {
         return $this->orderBy($column, 'desc');
+    }
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function setParentRelationData(array $data)
+    {
+        $this->parentRelationData = $data;
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function __get($name): mixed
+    {
+        if (isset($this->{$name})) {
+            return $this->{$name};
+        }
+
+        return null;
     }
 }

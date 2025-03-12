@@ -7,10 +7,10 @@ use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter;
 /**
  * @extends BaseApiClient<UserModelAdapter>
  */
-class UserApiClient extends BaseApiClient
+class ProfileApiClient extends BaseApiClient
 {
     public function __construct()
     {
-        parent::__construct('user', config('domeny-sdk.adapters.user'));
+        parent::__construct('profile', config('domeny-sdk.adapters.profile'));
     }
 }

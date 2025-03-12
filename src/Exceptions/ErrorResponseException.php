@@ -18,7 +18,7 @@ class ErrorResponseException extends Exception
 
         $this->response = $response;
         try {
-            $this->data = json_decode($response->getBody()->getContents(), true);
+            $this->data = json_decode($response->getBody()->getContents(), true) ?? [];
         } catch (\Exception $e) {
             report($e);
             $this->data = [];

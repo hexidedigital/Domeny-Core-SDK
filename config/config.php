@@ -10,4 +10,8 @@ return [
     ],
 
     'throw_exception_for_adapters' => false,
+    'adapters' => [
+        'user' => \Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter::class,
+        'profile' => \Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\ProfileModelAdapter::class,
+    ],
 ];
