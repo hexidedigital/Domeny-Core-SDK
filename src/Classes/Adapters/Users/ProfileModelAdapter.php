@@ -11,8 +11,8 @@ use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\ProfileApiClient;
 class ProfileModelAdapter extends BaseAdapter
 {
     public function __construct(
-        public int $id,
-        public int $user_id,
+        public ?int $id,
+        public ?int $user_id,
         public ?string $first_name,
         public ?string $last_name,
         public ?string $photo,
@@ -24,8 +24,8 @@ class ProfileModelAdapter extends BaseAdapter
         public ?string $company_phone,
         public ?string $company_email,
         public ?string $company_website,
-        public Carbon $created_at,
-        public Carbon $updated_at,
+        public ?Carbon $created_at,
+        public ?Carbon $updated_at,
         public ?Carbon $deleted_at,
 
         public ?CountryModelAdapter $country,

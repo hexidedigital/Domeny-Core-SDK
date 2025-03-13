@@ -10,8 +10,8 @@ use Hexidedigital\DomenyCoreSdk\Enums\DomainStatus;
 class DomainModelAdapter extends BaseAdapter
 {
     public function __construct(
-        public int $id,
-        public int $domain_zone_id,
+        public ?int $id,
+        public ?int $domain_zone_id,
         public ?string $name,
         public ?int $project_id,
         public ?int $user_id,

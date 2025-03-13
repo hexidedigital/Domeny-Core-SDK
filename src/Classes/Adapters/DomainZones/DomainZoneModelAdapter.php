@@ -8,7 +8,7 @@ use Hexidedigital\DomenyCoreSdk\Classes\Adapters\BaseAdapter;
 class DomainZoneModelAdapter extends BaseAdapter
 {
     public function __construct(
-        public int $id,
+        public ?int $id,
         public ?string $name,
         public ?string $price,
         public ?string $price_coins,

@@ -76,15 +76,18 @@ abstract class BaseApiClient
                     'order' => $order,
                     'limit' => $limit,
                     ...$additional
+                ],
+                'headers' => [
+                    'X-localization' => app()->getLocale(),
                 ]
             ]);
             $data = json_decode($response->getBody()->getContents(), true);
 
             $this->clearQuery();
-            if (in_array($query_method, $this->rawResponseMethods)) {
+            $classString = $this->adapterClass;
+            if (in_array($query_method, $this->rawResponseMethods) || empty($classString) || !method_exists($classString, 'fromArray')) {
                 return $data;
             }
-            $classString = $this->adapterClass;
             if (!$isSingleElement) {
                 if ($query_method == 'paginate') {
                     return new LengthAwarePaginator(
@@ -273,6 +276,7 @@ abstract class BaseApiClient
                     $relation = $closure;
                     $closure = null;
                 }
+
                 if (is_null($closure) || !is_callable($closure)) {
                     $relations[] = ['relation' => $relation, 'closure' => null];
                     continue;
@@ -552,5 +556,15 @@ abstract class BaseApiClient
         }
 
         return null;
+    }
+
+    private function blackJack()
+    {
+        return 'blackJack';
+    }
+
+    private function hookers()
+    {
+        return 'hookers';
     }
 }

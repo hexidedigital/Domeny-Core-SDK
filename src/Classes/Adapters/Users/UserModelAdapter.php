@@ -16,8 +16,8 @@ class UserModelAdapter extends BaseAdapter implements Authenticatable
         public ?string $email,
         public ?string $password,
         public ?Carbon $email_verified_at,
-        public Carbon $created_at,
-        public Carbon $updated_at,
+        public ?Carbon $created_at,
+        public ?Carbon $updated_at,
         public ?Carbon $deleted_at,
 
         public ?ProfileModelAdapter $profile,

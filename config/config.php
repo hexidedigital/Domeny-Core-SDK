@@ -13,5 +13,8 @@ return [
     'adapters' => [
         'user' => \Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter::class,
         'profile' => \Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\ProfileModelAdapter::class,
+        'country' => \Hexidedigital\DomenyCoreSdk\Classes\Adapters\Country\CountryModelAdapter::class,
+        'city' => \Hexidedigital\DomenyCoreSdk\Classes\Adapters\City\CityModelAdapter::class,
+        'specialization' => \Hexidedigital\DomenyCoreSdk\Classes\Adapters\Specialization\SpecializationModelAdapter::class,
     ],
 ];
