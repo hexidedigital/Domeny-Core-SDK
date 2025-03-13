@@ -156,8 +156,37 @@ abstract class BaseAdapter
         if (! method_exists($relationClass, 'getApi')) {
             throw new Exception("Class '$relationClass' does not have a getApi method");
         }
+        $api = $relationClass::getApi();
+        if (!empty($this->{$key})) {
+            $api = $api->setParentRelationData([$foreign_key => $this->{$key}])->where($foreign_key, $this->{$key});
+        }
 
-        return $relationClass::getApi()->setParentRelationData([$foreign_key => $this->{$key}])->where($foreign_key, $this->{$key});
+        return $api;
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function belongsTo(string $relationClass, ?string $foreign_key = null, string $key = 'id'): BaseApiClient
+    {
+        if (empty($foreign_key)) {
+            $foreign_key = $this->guessForeignKey($relationClass);
+        }
+
+        if (! class_exists($relationClass)) {
+            throw new Exception("Class '$relationClass' does not exist");
+        }
+
+        if (! method_exists($relationClass, 'getApi')) {
+            throw new Exception("Class '$relationClass' does not have a getApi method");
+        }
+
+        $api = $relationClass::getApi();
+        if (!empty($this->{$key})) {
+            $api = $api->setParentRelationData([$key => $this->{$foreign_key}])->where($key, $this->{$foreign_key});
+        }
+
+        return $api;
     }
 
     protected function guessForeignKey(string $class): string

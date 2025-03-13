@@ -34,6 +34,14 @@ class ProfileModelAdapter extends BaseAdapter
     }
 
     /**
+     * @throws \Exception
+     */
+    public function country(): BaseApiClient
+    {
+        return $this->belongsTo(CountryModelAdapter::class);
+    }
+
+    /**
      * @return ProfileApiClient
      */
     protected static function getApi(): BaseApiClient

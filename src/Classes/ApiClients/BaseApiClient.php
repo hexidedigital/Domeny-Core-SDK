@@ -3,6 +3,7 @@
 namespace Hexidedigital\DomenyCoreSdk\Classes\ApiClients;
 
 use Arr;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -22,6 +23,8 @@ abstract class BaseApiClient
 
     protected array $parentRelationData = [];
     protected array $whereConditions = [];
+
+    protected array $whereHasRelation = [];
     protected array $loadingRelations = [];
     protected array $order = [];
     protected ?int $limit = null;
@@ -54,12 +57,76 @@ abstract class BaseApiClient
     }
 
     /**
+     * @param string $relationName
+     * @param $callback
+     * @param bool $not
+     * @return $this
+     */
+    public function whereHas(string $relationName, $callback = null, bool $not = false): static
+    {
+        $this->whereHasRelation[] = [
+            'relation' => $relationName,
+            'callback' => $callback,
+            'not' => $not,
+        ];
+        return $this;
+    }
+
+    /**
+     * @param string $relationName
+     * @param $callback
+     * @return $this
+     */
+    public function whereDoesntHave(string $relationName, $callback = null): static
+    {
+        return $this->whereHas($relationName, $callback, true);
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function getWhereHas(): array
+    {
+        $whereHas = [];
+        foreach ($this->whereHasRelation as $relation) {
+            $relationName = $relation['relation'];
+
+            if (! method_exists($this->adapterClass, $relationName)) {
+                throw new Exception("Missing relation '$relationName' in '$this->adapterClass' adapter");
+            }
+
+            if (is_null($relation['callback']) || !is_callable($relation['callback'])) {
+                $whereHas[] = [
+                    'relation' => $relationName,
+                    'not' => $relation['not'] ?? false,
+                ];
+                continue;
+            }
+
+            /**
+             * @var BaseApiClient $apiClient
+             */
+            $apiClient = call_user_func($relation['callback'], app($this->adapterClass)->{$relationName}());
+
+            $whereHas[] = [
+                'relation' => $relationName,
+                'conditions' => $apiClient->getConditions(),
+                'whereHas' => $apiClient->getWhereHas(),
+                'not' => $relation['not'] ?? false,
+            ];
+        }
+        return $whereHas;
+    }
+
+    /**
      * @param string $query_method
      * @param array $additional
      * @param bool $isSingleElement
      * @return T|T[]|LengthAwarePaginator<T>|bool
      * @throws GuzzleException
      * @throws ErrorResponseException
+     * @throws Exception
      */
     private function runQuery(string $query_method, array $additional = [], bool $isSingleElement = false)
     {
@@ -68,11 +135,14 @@ abstract class BaseApiClient
             $relations = $this->getRelations();
             $order = $this->getOrder();
             $limit = $this->getLimit();
+            $whereHas = $this->getWhereHas();
+
             $response = $this->client->post($this->apiPath, [
                 'json' => [
                     'conditions' => $conditions,
                     'query_method' => $query_method,
                     'relations' => $relations,
+                    'whereHas' => $whereHas,
                     'order' => $order,
                     'limit' => $limit,
                     ...$additional
