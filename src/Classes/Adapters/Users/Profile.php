@@ -5,10 +5,8 @@ namespace Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users;
 use Carbon\Carbon;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\BaseAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Country\CountryModelAdapter;
-use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BaseApiClient;
-use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\ProfileApiClient;
 
-class ProfileModelAdapter extends BaseAdapter
+class Profile extends BaseAdapter
 {
     public function __construct(
         public ?int $id,
@@ -28,24 +26,8 @@ class ProfileModelAdapter extends BaseAdapter
         public ?Carbon $updated_at,
         public ?Carbon $deleted_at,
 
-        public ?CountryModelAdapter $country,
+//        public ?CountryModelAdapter $country,
     ) {
 
-    }
-
-    /**
-     * @return ProfileApiClient
-     */
-    protected static function getApi(): BaseApiClient
-    {
-        return new ProfileApiClient;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function country(): BaseApiClient
-    {
-        return $this->belongsTo(CountryModelAdapter::class);
     }
 }

@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter;
+use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BaseApiClient;
 use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\UserApiClient;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
@@ -95,8 +96,8 @@ class ApiUserAuthProvider implements UserProvider
         // TODO: Implement rehashPasswordIfRequired() method.
     }
 
-    protected function getUserApi(): UserApiClient
+    protected function getUserApi(): BaseApiClient
     {
-        return new UserApiClient();
+        return (config('auth.providers.users.model'))::getApi();
     }
 }

@@ -5,6 +5,7 @@ namespace Hexidedigital\DomenyCoreSdk\Classes\Adapters\Domains;
 use Carbon\Carbon;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\BaseAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\DomainZones\DomainZoneModelAdapter;
+use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BaseApiClient;
 use Hexidedigital\DomenyCoreSdk\Enums\DomainStatus;
 
 class DomainModelAdapter extends BaseAdapter
@@ -28,5 +29,10 @@ class DomainModelAdapter extends BaseAdapter
         public ?DomainZoneModelAdapter $domain_zone,
     ) {
 
+    }
+
+    public function domainZone(): BaseApiClient
+    {
+        return $this->belongsTo(DomainZoneModelAdapter::class);
     }
 }

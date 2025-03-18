@@ -5,10 +5,15 @@ namespace Hexidedigital\DomenyCoreSdk\Classes\Adapters;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Exception\GuzzleException;
+use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BaseApiClient;
 use Hexidedigital\DomenyCoreSdk\Exceptions\ErrorResponseException;
 use ReflectionClass;
+use Str;
 
+/**
+ * @mixin BaseApiClient
+ */
 abstract class BaseAdapter
 {
     protected array $loadedRelations = [];
@@ -34,9 +39,13 @@ abstract class BaseAdapter
     }
 
 
-    protected static function getApi(): BaseApiClient
+    public static function getApi(): BaseApiClient
     {
-        throw new Exception('getApi method not implemented in ' . static::class);
+        $type = Str::of(static::class)->classBasename()->snake()->toString();
+
+        $class = static::class;
+
+        return new BaseApiClient($type, $class);
     }
 
     public function delete(): bool
@@ -65,6 +74,7 @@ abstract class BaseAdapter
      */
     public function load(array $data): static
     {
+        \Log::debug(static::class);
         $newModel = static::getApi()->with($data)->where('id', $this->id)->first();
 
         foreach ($data as $relationName => $relationData) {
@@ -164,9 +174,49 @@ abstract class BaseAdapter
         return $api;
     }
 
-    /**
-     * @throws Exception
-     */
+    public function belongsToMany(
+        string $relationClass,
+        ?string $table = null,
+        ?string $foreignPivotKey = null,
+        ?string $relatedPivotKey = null,
+        string $parentKey = 'id',
+        string $relatedKey = 'id',
+    ): BaseApiClient {
+        if (! class_exists($relationClass)) {
+            throw new Exception("Class '$relationClass' does not exist");
+        }
+
+        if (! method_exists($relationClass, 'getApi')) {
+            throw new Exception("Class '$relationClass' does not have a getApi method");
+        }
+
+
+        if (empty($table)) {
+            $table = $this->guessPivotTable(static::class, $relationClass);
+        }
+
+        if (empty($foreignPivotKey)) {
+            $foreignPivotKey = $this->guessForeignKey(static::class);
+        }
+
+        if (empty($relatedPivotKey)) {
+            $relatedPivotKey = $this->guessForeignKey($relationClass);
+        }
+
+        $parentKeyValue = $this->{$parentKey};
+        $relatedTable = $this->guessTableNameFromClass($relationClass);
+
+        $api = $relationClass::getApi();
+
+        $api->whereRaw("EXISTS(
+                            select * from `$table`
+                            where `$table`.`$foreignPivotKey` = '$parentKeyValue'
+                            and `$table`.`$relatedPivotKey` = `$relatedTable`.`$relatedKey`
+                        )");
+
+        return $api;
+    }
+
     protected function belongsTo(string $relationClass, ?string $foreign_key = null, string $key = 'id'): BaseApiClient
     {
         if (empty($foreign_key)) {
@@ -189,9 +239,36 @@ abstract class BaseAdapter
         return $api;
     }
 
+    protected function guessPivotTable(string $fromClass, string $toClass): string
+    {
+        $from = Str::of($fromClass)->classBasename()->snake()->replace('_model_adapter', '')->toString();
+        $to = Str::of($toClass)->classBasename()->snake()->replace('_model_adapter', '')->toString();
+
+        return sprintf('%s_%s', $from, $to);
+    }
+
+    protected function guessTableNameFromClass(string $class): string
+    {
+        return Str::of($class)
+            ->classBasename()
+            ->snake()
+            ->replace('_model_adapter', '')
+            ->plural()
+            ->toString();
+    }
+
     protected function guessForeignKey(string $class): string
     {
-        $class = \Str::snake($class);
-        return str_replace('model_adapter', '', $class) . '_id';
+        return Str::of($class)->classBasename()->snake()->replace('_model_adapter', '')->append('_id')->toString();
+    }
+
+
+    public static function __callStatic(string $name, array $arguments)
+    {
+        if (method_exists(static::class, $name)) {
+            return static::{$name}(...$arguments);
+        }
+
+        return static::getApi()->{$name}(...$arguments);
     }
 }

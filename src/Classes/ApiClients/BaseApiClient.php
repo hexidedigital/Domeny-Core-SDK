@@ -7,13 +7,16 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use Hexidedigital\DomenyCoreSdk\Classes\Database\DatabaseRawValue;
+use Hexidedigital\DomenyCoreSdk\Classes\Database\DB;
 use Hexidedigital\DomenyCoreSdk\Exceptions\ErrorResponseException;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Str;
 
 /**
  * @template T
  */
-abstract class BaseApiClient
+class BaseApiClient
 {
     protected Client $client;
     protected array $rawResponseMethods = [
@@ -33,7 +36,7 @@ abstract class BaseApiClient
     protected string $type;
     protected ?string $adapterClass;
 
-    public function __construct(string $type, ?string $adapterClass = null, ?string $apiPath = null)
+    public function __construct(string $type = '', ?string $adapterClass = null, ?string $apiPath = null)
     {
         $this->type = $type;
         $this->adapterClass = $adapterClass;
@@ -72,6 +75,15 @@ abstract class BaseApiClient
         return $this;
     }
 
+    public function when(bool $condition, callable $callback): static
+    {
+        if ($condition) {
+            return call_user_func($callback, $this);
+        }
+
+        return $this;
+    }
+
     /**
      * @param string $relationName
      * @param $callback
@@ -80,6 +92,16 @@ abstract class BaseApiClient
     public function whereDoesntHave(string $relationName, $callback = null): static
     {
         return $this->whereHas($relationName, $callback, true);
+    }
+
+    /**
+     * @param string $relationName
+     * @param $callback
+     * @return $this
+     */
+    public function doesntHave(string $relationName, $callback = null): static
+    {
+        return $this->whereDoesntHave($relationName, $callback);
     }
 
     /**
@@ -352,7 +374,7 @@ abstract class BaseApiClient
                     continue;
                 }
 
-                $query = call_user_func($closure, new static());
+                $query = call_user_func($closure, new static);
 
                 $relations[] = [
                     'relation' => $relation,
@@ -384,21 +406,48 @@ abstract class BaseApiClient
      */
     protected function parseConditions(array $whereCondition): array
     {
+        // If it is simple where
         if ($this->isSimpleCondition($whereCondition)) {
-            return $whereCondition;
+            return $this->parseConditionValues($whereCondition);
         }
 
+        // If it is a callback for example $q->where(fn($q) => $q->where(...)->orWhere(...));
         if (is_callable($whereCondition['column'])) {
+            // We set operator as custom so api will process it as not a simple where.
+            // Then we try to parse conditions from a new (new static) query as if it was really a new query.
+            // This way we will recursively get parsed array of conditions.
             return [
                 'operator' => 'custom',
                 'value' => call_user_func($whereCondition['column'], ((new static())))->getConditions(),
                 'boolean' => $whereCondition['boolean'],
             ];
         }
-//        dd($whereCondition);
+
+        // If we are not sure what the condition is, lets just try to parse it for now.
+        return $this->parseConditionValues($whereCondition);
+    }
+
+    protected function parseConditionValues(array $whereCondition): array
+    {
+        if ($this->isRawValue($whereCondition['column'] ?? null)) {
+            $whereCondition['raw_column'] = true;
+            $whereCondition['column'] = $whereCondition['column']->value;
+        }
+        if ($this->isRawValue($whereCondition['value'] ?? null)) {
+            $whereCondition['raw_value'] = true;
+            $whereCondition['value'] = $whereCondition['value']->value;
+        }
+
+        return $whereCondition;
+    }
+
+    protected function isRawValue(mixed $column): bool
+    {
+        return $column instanceof DatabaseRawValue;
     }
 
     /**
+     * Checks if where-condition is a simple where without callbacks.
      * @param array $whereCondition
      * @return bool
      */
@@ -452,6 +501,19 @@ abstract class BaseApiClient
         }
 
         return $this;
+    }
+
+    /**
+     * @param string|DatabaseRawValue $query
+     * @return static
+     */
+    public function whereRaw(string|DatabaseRawValue $query): static
+    {
+        if (is_string($query)) {
+            $query = DB::raw($query);
+        }
+
+        return $this->where($query);
     }
 
     /**
@@ -636,5 +698,20 @@ abstract class BaseApiClient
     private function hookers()
     {
         return 'hookers';
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        if (method_exists($this, $name)) {
+            return $this->$name(...$arguments);
+        }
+
+        $scopeMethodName = Str::of($name)->camel()->ucfirst()->prepend('scope')->toString();
+
+        if (method_exists($this->adapterClass, $scopeMethodName)) {
+            return ($this->adapterClass::fromArray([]))->{$scopeMethodName}($this, ...$arguments) ?? $this;
+        }
+
+        throw new Exception('Method ' . $name . ' does not exist in ' . static::class);
     }
 }
