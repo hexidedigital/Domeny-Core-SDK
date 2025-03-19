@@ -10,6 +10,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Hexidedigital\DomenyCoreSdk\Classes\Database\DatabaseRawValue;
 use Hexidedigital\DomenyCoreSdk\Classes\Database\DB;
 use Hexidedigital\DomenyCoreSdk\Exceptions\ErrorResponseException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Str;
 
@@ -19,6 +20,8 @@ use Str;
 class BaseApiClient
 {
     protected Client $client;
+    protected ?int $user_id = null;
+
     protected array $rawResponseMethods = [
         'exists',
         'delete',
@@ -36,7 +39,29 @@ class BaseApiClient
     protected string $type;
     protected ?string $adapterClass;
 
-    public function __construct(string $type = '', ?string $adapterClass = null, ?string $apiPath = null)
+    public function setUser(int $id)
+    {
+        $this->user_id = $id;
+    }
+
+    public function clearUser()
+    {
+        $this->user_id = null;
+    }
+
+    public function getParentData(): array
+    {
+        return [
+            'parentRelationData' => $this->parentRelationData,
+            'whereConditions' => $this->whereConditions,
+            'whereHasRelation' => $this->whereHasRelation,
+            'loadingRelations' => $this->loadingRelations,
+            'order' => $this->order,
+            'limit' => $this->limit,
+        ];
+    }
+
+    public function __construct(string $type = '', ?string $adapterClass = null, ?string $apiPath = null, array $parentData = [])
     {
         $this->type = $type;
         $this->adapterClass = $adapterClass;
@@ -44,6 +69,10 @@ class BaseApiClient
             'base_uri' => config('domeny-sdk.base_uri'),
         ]);
         $this->apiPath = $apiPath ?? "api/v1/$this->type/query";
+
+        foreach ($parentData as $key => $value) {
+            $this->$key = $value;
+        }
     }
 
     /**
@@ -129,7 +158,7 @@ class BaseApiClient
             /**
              * @var BaseApiClient $apiClient
              */
-            $apiClient = call_user_func($relation['callback'], app($this->adapterClass)->{$relationName}());
+            $apiClient = call_user_func($relation['callback'], (new $this->adapterClass)->{$relationName}());
 
             $whereHas[] = [
                 'relation' => $relationName,
@@ -139,6 +168,14 @@ class BaseApiClient
             ];
         }
         return $whereHas;
+    }
+
+    protected function getHeaders(): array
+    {
+        return [
+            'X-localization' => app()->getLocale(),
+            'X-USER-ID' => $this->user_id,
+        ];
     }
 
     /**
@@ -169,9 +206,7 @@ class BaseApiClient
                     'limit' => $limit,
                     ...$additional
                 ],
-                'headers' => [
-                    'X-localization' => app()->getLocale(),
-                ]
+                'headers' => $this->getHeaders()
             ]);
             $data = json_decode($response->getBody()->getContents(), true);
 
@@ -223,7 +258,8 @@ class BaseApiClient
                     'query_method' => $query_method,
                     'conditions' => $conditions,
                     'data' => $data,
-                ]
+                ],
+                'headers' => $this->getHeaders()
             ]);
             $data = json_decode($response->getBody()->getContents(), true);
 
@@ -264,6 +300,65 @@ class BaseApiClient
     public function update(array $data): bool
     {
         return (bool) $this->runChangeData('update', $data, rawResult: true);
+    }
+
+    /**
+     * @param string $query_method
+     * @param array $data
+     * @param array $additional
+     * @param bool $rawResult
+     * @return T|null|mixed
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function runMultiChangeData(string $query_method, array $data, array $additional, bool $rawResult = false)
+    {
+        // merge parentRelationData to each row
+        $data = array_map(
+            fn ($item) => array_merge($this->parentRelationData, $item),
+            $data
+        );
+        $conditions = $this->getConditions();
+
+        try {
+            $response = $this->client->post($this->apiPath, [
+                'json' => [
+                    'query_method' => $query_method,
+                    'conditions' => $conditions,
+                    'additional' => $additional,
+                    'data' => $data,
+                ],
+                'headers' => $this->getHeaders()
+            ]);
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (empty($data)) {
+                return null;
+            }
+
+            if ($rawResult) {
+                return $data;
+            }
+
+            $classString = $this->adapterClass;
+
+            return call_user_func("$classString::fromArray", $data);
+        } catch (ClientException $exception) {
+            $this->clearQuery();
+            throw new ErrorResponseException($exception->getResponse());
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param array|string $uniqueBy
+     * @return int
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function upsert(array $data, array|string $uniqueBy): int
+    {
+        return (int) $this->runMultiChangeData('upsert', $data, additional: ['uniqueBy' => $uniqueBy], rawResult:true);
     }
 
     /**
@@ -316,6 +411,51 @@ class BaseApiClient
     public function first(): mixed
     {
         return $this->runQuery('first', isSingleElement: true);
+    }
+
+    /**
+     * @return T
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function find($id = null): mixed
+    {
+        if (func_num_args() > 0) {
+            $this->where('id', $id);
+        }
+        return $this->first();
+    }
+
+    /**
+     * @return T
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     * @throws ModelNotFoundException
+     */
+    public function firstOrFail(): mixed
+    {
+        $item = $this->first();
+
+        if (is_null($item)) {
+            throw (new ModelNotFoundException)->setModel($this->adapterClass);
+        }
+
+        return $item;
+    }
+
+    /**
+     * @return T
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     * @throws ModelNotFoundException
+     */
+    public function findOrFail($id = null): mixed
+    {
+        if (func_num_args() > 0) {
+            $this->where('id', $id);
+        }
+
+        return $this->firstOrFail();
     }
 
     /**
@@ -385,6 +525,7 @@ class BaseApiClient
                 ];
             }
         }
+
         return $relations;
     }
 
@@ -477,10 +618,7 @@ class BaseApiClient
      */
     public function where($column, $operator = null, $value = null, $boolean = 'and', bool $not = false): static
     {
-        if (is_null($value) && !empty($operator) && func_num_args() === 2) {
-            $value = $operator;
-            $operator = '=';
-        }
+        [$operator, $value] = $this->parseOperators($operator, $value, func_num_args());
 
         if (!empty($value)) {
             $this->whereConditions[] = [
@@ -501,6 +639,21 @@ class BaseApiClient
         }
 
         return $this;
+    }
+
+    /**
+     * @param $operator
+     * @param $value
+     * @param $numArgs
+     * @return array{mixed, mixed}
+     */
+    protected function parseOperators($operator, $value, $numArgs): array
+    {
+        if (is_null($value) && !empty($operator) && $numArgs === 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+        return [$operator, $value];
     }
 
     /**
@@ -525,10 +678,7 @@ class BaseApiClient
      */
     public function whereNot($column, $operator = null, $value = null, $boolean = 'and'): static
     {
-        if (is_null($value) && !empty($operator) && func_num_args() === 2) {
-            $value = $operator;
-            $operator = '=';
-        }
+        [$operator, $value] = $this->parseOperators($operator, $value, func_num_args());
         return $this->where($column, $operator, $value, $boolean, true);
     }
 
@@ -541,6 +691,7 @@ class BaseApiClient
      */
     public function orWhere($column, $operator = null, $value = null, bool $not = false): static
     {
+        [$operator, $value] = $this->parseOperators($operator, $value, func_num_args());
         return $this->where($column, $operator, $value, 'or', $not);
     }
 
@@ -552,10 +703,7 @@ class BaseApiClient
      */
     public function orWhereNot($column, $operator = null, $value = null): static
     {
-        if (is_null($value) && !empty($operator) && func_num_args() === 2) {
-            $value = $operator;
-            $operator = '=';
-        }
+        [$operator, $value] = $this->parseOperators($operator, $value, func_num_args());
         return $this->orWhere($column, $operator, $value, true);
     }
 
@@ -655,6 +803,18 @@ class BaseApiClient
             'direction' => $direction,
         ];
 
+        return $this;
+    }
+
+
+    /**
+     * @return $this
+     */
+    public function inRandomOrder(): static
+    {
+        $this->order[] = [
+            'type' => 'random'
+        ];
         return $this;
     }
 

@@ -5,29 +5,24 @@ namespace Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users;
 use Carbon\Carbon;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\BaseAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BaseApiClient;
+use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\HasOne;
 use Illuminate\Contracts\Auth\Authenticatable;
 
 class User extends BaseAdapter implements Authenticatable
 {
-    public function __construct(
-        public ?int $id,
-        public ?string $email,
-        public ?string $password,
-        public ?Carbon $email_verified_at,
-        public ?Carbon $created_at,
-        public ?Carbon $updated_at,
-        public ?Carbon $deleted_at,
-
-        public ?Profile $profile,
-    ) {
-
-    }
+    public ?int $id;
+    public ?string $email;
+    public ?string $password;
+    public ?Carbon $email_verified_at;
+    public ?Carbon $created_at;
+    public ?Carbon $updated_at;
+    public ?Carbon $deleted_at;
 
 
     /**
-     * @return BaseApiClient<Profile>
+     * @return HasOne<Profile>
      */
-    public function profile(): BaseApiClient
+    public function profile(): HasOne
     {
         return $this->hasOne(Profile::class);
     }

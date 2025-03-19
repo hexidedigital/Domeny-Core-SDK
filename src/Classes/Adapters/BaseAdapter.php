@@ -7,6 +7,10 @@ use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Hexidedigital\DomenyCoreSdk\Classes\Adapters\Users\UserModelAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BaseApiClient;
+use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BelongsTo;
+use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BelongsToMany;
+use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\HasMany;
+use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\HasOne;
 use Hexidedigital\DomenyCoreSdk\Exceptions\ErrorResponseException;
 use ReflectionClass;
 use Str;
@@ -17,6 +21,12 @@ use Str;
 abstract class BaseAdapter
 {
     protected array $loadedRelations = [];
+
+    protected static array $relationTypes = [
+        BelongsTo::class,
+        HasMany::class,
+        HasOne::class,
+    ];
 
     /**
      * @param array $data
@@ -39,13 +49,15 @@ abstract class BaseAdapter
     }
 
 
-    public static function getApi(): BaseApiClient
+    public static function getApi(?string $apiClientClass = null): BaseApiClient
     {
+        $apiClientClass ??= BaseApiClient::class;
+
         $type = Str::of(static::class)->classBasename()->snake()->toString();
 
         $class = static::class;
 
-        return new BaseApiClient($type, $class);
+        return new $apiClientClass($type, $class);
     }
 
     public function delete(): bool
@@ -65,6 +77,7 @@ abstract class BaseAdapter
                 $this->{$relationName}?->markLoadedRelations($relation['relations']);
             }
         }
+
         return $this;
     }
 
@@ -92,20 +105,75 @@ abstract class BaseAdapter
     public static function fromArray(array $data, array $relations = []): static
     {
         $reflect = new ReflectionClass(static::class);
+        $selfReflect = new ReflectionClass(self::class);
+        $object = new static;
 
-        $classData = [];
+        // Initialize properties
         foreach ($reflect->getProperties() as $property) {
-            if ($property->isProtected() || $property->isPrivate()) {
+            if ($selfReflect->hasProperty($property->name)) {
                 continue;
             }
-            $classData[$property->name] = static::parseProperty(
+            $object->{$property->name} = static::parseProperty(
                 $data[$property->name] ?? null,
                 $property->getType()->getName()
             );
         }
 
-        return (new static(...$classData))->markLoadedRelations($relations);
+        // Initialize loaded relations
+        foreach ($reflect->getMethods() as $method) {
+            $returnType = (string) $method->getReturnType();
+            if (
+                !$reflect->hasProperty($method->name)
+                && $method->hasReturnType()
+                && in_array($returnType, self::$relationTypes)
+                && $method->name != $returnType::METHOD_NAME
+            ) {
+                $relation = $object->{$method->name}();
+                $adapter = $relation->adapterClass ?? null;
+                $value = $data[Str::snake($method->name)] ?? null;
+
+                if (method_exists($relation, 'isMultiple') && $relation->isMultiple()) {
+                    $value = $value[0] ?? null;
+                }
+
+                if (empty($adapter)) {
+                    continue;
+                }
+
+                $object->{$method->name} = static::parseRelation(
+                    $value,
+                    $returnType,
+                    $adapter
+                );
+            }
+        }
+
+        return $object->markLoadedRelations($relations);
     }
+
+    public function newCollection(array $models = [])
+    {
+        return collect($models);
+    }
+//    /**
+//     * @throws Exception
+//     */
+//    public static function fromArray(array $data, array $relations = []): static
+//    {
+//        $reflect = new ReflectionClass(static::class);
+//        $classData = [];
+//        foreach ($reflect->getProperties() as $property) {
+//            if ($property->isProtected() || $property->isPrivate()) {
+//                continue;
+//            }
+//            $classData[$property->name] = static::parseProperty(
+//                $data[$property->name] ?? null,
+//                $property->getType()->getName()
+//            );
+//        }
+//
+//        return (new static(...$classData))->markLoadedRelations($relations);
+//    }
 
     /**
      * @throws Exception
@@ -125,6 +193,21 @@ abstract class BaseAdapter
 
             default => static::tryToParseClassProperty($value, $type),
         };
+    }
+    /**
+     * @throws Exception
+     */
+    private static function parseRelation(mixed $value, string $relationType, string $adapterClass): mixed
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        if (($relationType::IS_ARRAY ?? false) && is_array($value)) {
+            return \Arr::map($value, fn ($item) => static::tryToParseClassProperty($item, $adapterClass));
+        }
+
+        return static::tryToParseClassProperty($value, $adapterClass);
     }
 
     /**
@@ -151,9 +234,9 @@ abstract class BaseAdapter
      * @param string $relationClass
      * @param string|null $foreign_key
      * @param string $key
-     * @return BaseApiClient
+     * @return HasOne
      */
-    protected function hasOne(string $relationClass, ?string $foreign_key = null, string $key = 'id'): BaseApiClient
+    protected function hasOne(string $relationClass, ?string $foreign_key = null, string $key = 'id'): HasOne
     {
         if (empty($foreign_key)) {
             $foreign_key = $this->guessForeignKey(static::class);
@@ -166,14 +249,53 @@ abstract class BaseAdapter
         if (! method_exists($relationClass, 'getApi')) {
             throw new Exception("Class '$relationClass' does not have a getApi method");
         }
-        $api = $relationClass::getApi();
+        $api = $relationClass::getApi(HasOne::class);
         if (!empty($this->{$key})) {
-            $api = $api->setParentRelationData([$foreign_key => $this->{$key}])->where($foreign_key, $this->{$key});
+            $api = $api->setParentRelationData([$foreign_key => $this->{$key}])
+                ->where($foreign_key, $this->{$key})
+                ->limit(1);
         }
 
         return $api;
     }
 
+    /**
+     * @param string $relationClass
+     * @param string|null $foreign_key
+     * @param string $key
+     * @return HasMany
+     */
+    public function hasMany(string $relationClass, ?string $foreign_key = null, string $key = 'id'): HasMany
+    {
+        if (empty($foreign_key)) {
+            $foreign_key = $this->guessForeignKey(static::class);
+        }
+
+        if (! class_exists($relationClass)) {
+            throw new Exception("Class '$relationClass' does not exist");
+        }
+
+        if (! method_exists($relationClass, 'getApi')) {
+            throw new Exception("Class '$relationClass' does not have a getApi method");
+        }
+        $api = $relationClass::getApi(HasMany::class);
+        if (!empty($this->{$key})) {
+            $api = $api->setParentRelationData([$foreign_key => $this->{$key}])
+                ->where($foreign_key, $this->{$key});
+        }
+
+        return $api;
+    }
+
+    /**
+     * @param string $relationClass
+     * @param string|null $table
+     * @param string|null $foreignPivotKey
+     * @param string|null $relatedPivotKey
+     * @param string $parentKey
+     * @param string $relatedKey
+     * @return BelongsToMany
+     */
     public function belongsToMany(
         string $relationClass,
         ?string $table = null,
@@ -181,7 +303,7 @@ abstract class BaseAdapter
         ?string $relatedPivotKey = null,
         string $parentKey = 'id',
         string $relatedKey = 'id',
-    ): BaseApiClient {
+    ): BelongsToMany {
         if (! class_exists($relationClass)) {
             throw new Exception("Class '$relationClass' does not exist");
         }
@@ -206,18 +328,27 @@ abstract class BaseAdapter
         $parentKeyValue = $this->{$parentKey};
         $relatedTable = $this->guessTableNameFromClass($relationClass);
 
-        $api = $relationClass::getApi();
+        $api = $relationClass::getApi(BelongsToMany::class);
 
-        $api->whereRaw("EXISTS(
+
+        if (!empty($parentKeyValue)) {
+            $api->whereRaw("EXISTS(
                             select * from `$table`
                             where `$table`.`$foreignPivotKey` = '$parentKeyValue'
                             and `$table`.`$relatedPivotKey` = `$relatedTable`.`$relatedKey`
                         )");
+        }
 
         return $api;
     }
 
-    protected function belongsTo(string $relationClass, ?string $foreign_key = null, string $key = 'id'): BaseApiClient
+    /**
+     * @param string $relationClass
+     * @param string|null $foreign_key
+     * @param string $key
+     * @return BelongsTo
+     */
+    protected function belongsTo(string $relationClass, ?string $foreign_key = null, string $key = 'id'): BelongsTo
     {
         if (empty($foreign_key)) {
             $foreign_key = $this->guessForeignKey($relationClass);
@@ -231,7 +362,7 @@ abstract class BaseAdapter
             throw new Exception("Class '$relationClass' does not have a getApi method");
         }
 
-        $api = $relationClass::getApi();
+        $api = $relationClass::getApi(BelongsTo::class);
         if (!empty($this->{$key})) {
             $api = $api->setParentRelationData([$key => $this->{$foreign_key}])->where($key, $this->{$foreign_key});
         }
@@ -262,6 +393,22 @@ abstract class BaseAdapter
         return Str::of($class)->classBasename()->snake()->replace('_model_adapter', '')->append('_id')->toString();
     }
 
+    public function __get(string $name)
+    {
+        $reflection = new ReflectionClass($this);
+
+        if (
+            $reflection->hasMethod($name)
+            && $reflection->getMethod($name)->hasReturnType()
+            && in_array($reflection->getMethod($name)->getReturnType(), static::$relationTypes)
+            && !in_array($name, $this->loadedRelations)
+            && config('domeny-sdk.lazy_loading')
+        ) {
+            return $this->load($name)->$name;
+        }
+
+        return $this->$name;
+    }
 
     public static function __callStatic(string $name, array $arguments)
     {
