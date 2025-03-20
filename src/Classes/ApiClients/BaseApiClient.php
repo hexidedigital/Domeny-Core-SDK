@@ -7,9 +7,11 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use Hexidedigital\DomenyCoreSdk\Classes\Adapters\BaseAdapter;
 use Hexidedigital\DomenyCoreSdk\Classes\Database\DatabaseRawValue;
 use Hexidedigital\DomenyCoreSdk\Classes\Database\DB;
 use Hexidedigital\DomenyCoreSdk\Exceptions\ErrorResponseException;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Str;
@@ -20,7 +22,7 @@ use Str;
 class BaseApiClient
 {
     protected Client $client;
-    protected ?int $user_id = null;
+    public static ?int $__apiSdkUserId = null;
 
     protected array $rawResponseMethods = [
         'exists',
@@ -28,12 +30,16 @@ class BaseApiClient
     ];
 
     protected array $parentRelationData = [];
+    protected ?BaseAdapter $_parentItem = null;
+    protected ?string $_parentRelation = null;
     protected array $whereConditions = [];
 
     protected array $whereHasRelation = [];
     protected array $loadingRelations = [];
     protected array $order = [];
+    protected array $select = [];
     protected ?int $limit = null;
+
 
     protected string $apiPath;
     protected string $type;
@@ -58,6 +64,7 @@ class BaseApiClient
             'loadingRelations' => $this->loadingRelations,
             'order' => $this->order,
             'limit' => $this->limit,
+            'select' => $this->select,
         ];
     }
 
@@ -80,12 +87,55 @@ class BaseApiClient
      */
     public function clearQuery(): static
     {
+        $this->parentRelationData = [];
         $this->whereConditions = [];
         $this->loadingRelations = [];
         $this->order = [];
         $this->limit = null;
+        $this->select = [];
+        $this->_parentItem = null;
+        $this->_parentRelation = null;
 
         return $this;
+    }
+
+    /**
+     * @param $select
+     * @param ...$otherSelects
+     * @return $this
+     */
+    public function select($select, ...$otherSelects): static
+    {
+        // If user specified select via comma-separated parameters,
+        // We will convert it to an array
+        if (!empty ($otherSelects)) {
+            if (! is_array($select)) {
+                $select = [$select];
+            }
+
+            $select = array_merge($select, $otherSelects);
+        }
+
+        if (is_string($select)) { // if this is a single select, just pass it after converting to array
+            $this->select[] = ['value' => $select];
+        } elseif (is_array($select) || $select instanceof Arrayable) { // If select is an array we parse each item
+            foreach ($select as $value) {
+                if ($this->isRawValue($value)) {
+                    $this->select[] = ['value' => $value->value, 'raw' => true];
+                } else {
+                    $this->select[] = ['value' => $value];
+                }
+            }
+        } elseif ($this->isRawValue($select)) { // If select is DB::raw() we parse it and convert to array
+            $this->select[] = ['value' => $select, 'raw' => true];
+        }
+
+        return $this;
+    }
+
+    public function getSelect()
+    {
+        return $this->select;
     }
 
     /**
@@ -174,7 +224,7 @@ class BaseApiClient
     {
         return [
             'X-localization' => app()->getLocale(),
-            'X-USER-ID' => $this->user_id,
+            'X-USER-ID' => static::$__apiSdkUserId,
         ];
     }
 
@@ -195,6 +245,7 @@ class BaseApiClient
             $order = $this->getOrder();
             $limit = $this->getLimit();
             $whereHas = $this->getWhereHas();
+            $select = $this->getSelect();
 
             $response = $this->client->post($this->apiPath, [
                 'json' => [
@@ -204,6 +255,7 @@ class BaseApiClient
                     'whereHas' => $whereHas,
                     'order' => $order,
                     'limit' => $limit,
+                    'select' => $select,
                     ...$additional
                 ],
                 'headers' => $this->getHeaders()
@@ -241,15 +293,16 @@ class BaseApiClient
 
     /**
      * @param string $query_method
+     * @param BaseAdapter $parentItem
      * @param array $data
+     * @param array $additional
      * @param bool $rawResult
-     * @return T|null
+     * @return T|null|mixed
      * @throws ErrorResponseException
      * @throws GuzzleException
      */
-    public function runChangeData(string $query_method, array $data, bool $rawResult = false)
+    public function runRelationChangeData(string $query_method, BaseAdapter $parentItem, string $parentRelation, mixed $data = [], array $additional = [], bool $rawResult = false)
     {
-        $data = array_merge($this->parentRelationData, $data);
         $conditions = $this->getConditions();
 
         try {
@@ -258,6 +311,56 @@ class BaseApiClient
                     'query_method' => $query_method,
                     'conditions' => $conditions,
                     'data' => $data,
+                    'parent' => [
+                        'type' => $parentItem->getApiType(),
+                        'id' => $parentItem->id,
+                        'relation' => $parentRelation,
+                    ],
+                    ...$additional,
+                ],
+                'headers' => $this->getHeaders()
+            ]);
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (empty($data)) {
+                return null;
+            }
+
+            if ($rawResult) {
+                return $data;
+            }
+
+            $classString = $this->adapterClass;
+
+            return call_user_func("$classString::fromArray", $data);
+        } catch (ClientException $exception) {
+            $this->clearQuery();
+            throw new ErrorResponseException($exception->getResponse());
+        }
+    }
+
+    /**
+     * @param string $query_method
+     * @param array $data
+     * @param bool $rawResult
+     * @return T|null|mixed
+     * @throws ErrorResponseException
+     * @throws GuzzleException
+     */
+    public function runChangeData(string $query_method, array $data, array $additional = [], bool $rawResult = false)
+    {
+        $data = array_merge($this->parentRelationData, $data);
+        $conditions = $this->getConditions();
+        $select = $this->getSelect();
+
+        try {
+            $response = $this->client->post($this->apiPath, [
+                'json' => [
+                    'query_method' => $query_method,
+                    'conditions' => $conditions,
+                    'select' => $select,
+                    'data' => $data,
+                    ...$additional,
                 ],
                 'headers' => $this->getHeaders()
             ]);
@@ -289,6 +392,11 @@ class BaseApiClient
     public function create(array $data)
     {
         return $this->runChangeData("create", $data);
+    }
+
+    public function firstOrCreate(array $attributes = [], array $values = [])
+    {
+        return $this->runChangeData("firstOrCreate", $attributes, ['createValues' => $values]);
     }
 
     /**
@@ -445,7 +553,6 @@ class BaseApiClient
 
     /**
      * @return T
-     * @throws ErrorResponseException
      * @throws GuzzleException
      * @throws ModelNotFoundException
      */
@@ -835,6 +942,12 @@ class BaseApiClient
     {
         $this->parentRelationData = $data;
         return $this;
+    }
+
+    public function setParentItem(BaseAdapter $item, ?string $relation)
+    {
+        $this->_parentItem = $item;
+        $this->_parentRelation = $relation;
     }
 
     /**

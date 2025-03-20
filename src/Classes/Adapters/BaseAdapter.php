@@ -24,6 +24,7 @@ abstract class BaseAdapter
 
     protected static array $relationTypes = [
         BelongsTo::class,
+        BelongsToMany::class,
         HasMany::class,
         HasOne::class,
     ];
@@ -53,11 +54,16 @@ abstract class BaseAdapter
     {
         $apiClientClass ??= BaseApiClient::class;
 
-        $type = Str::of(static::class)->classBasename()->snake()->toString();
+        $type = static::getApiType();
 
         $class = static::class;
 
         return new $apiClientClass($type, $class);
+    }
+
+    public static function getApiType(): string
+    {
+        return Str::of(static::class)->classBasename()->snake()->toString();
     }
 
     public function delete(): bool
@@ -85,9 +91,9 @@ abstract class BaseAdapter
      * @throws ErrorResponseException
      * @throws GuzzleException
      */
-    public function load(array $data): static
+    public function load(array|string $data): static
     {
-        \Log::debug(static::class);
+        $data = is_string($data) ? [$data] : $data;
         $newModel = static::getApi()->with($data)->where('id', $this->id)->first();
 
         foreach ($data as $relationName => $relationData) {
@@ -130,7 +136,10 @@ abstract class BaseAdapter
             ) {
                 $relation = $object->{$method->name}();
                 $adapter = $relation->adapterClass ?? null;
-                $value = $data[Str::snake($method->name)] ?? null;
+                if (! isset($data[Str::snake($method->name)])) {
+                    continue;
+                }
+                $value = $data[Str::snake($method->name)];
 
                 if (method_exists($relation, 'isMultiple') && $relation->isMultiple()) {
                     $value = $value[0] ?? null;
@@ -140,10 +149,16 @@ abstract class BaseAdapter
                     continue;
                 }
 
+                $pivotAdapter = null;
+                if (method_exists($relation, 'getPivotColumns') && !empty($relation->getPivotColumns())) {
+                    $pivotAdapter = $relation->getRelationAdapterClass();
+                }
+
                 $object->{$method->name} = static::parseRelation(
                     $value,
                     $returnType,
-                    $adapter
+                    $adapter,
+                    $pivotAdapter
                 );
             }
         }
@@ -197,27 +212,27 @@ abstract class BaseAdapter
     /**
      * @throws Exception
      */
-    private static function parseRelation(mixed $value, string $relationType, string $adapterClass): mixed
+    private static function parseRelation(mixed $value, string $relationType, string $adapterClass, ?string $pivotAdapterClass = null): mixed
     {
         if (empty($value)) {
             return null;
         }
 
         if (($relationType::IS_ARRAY ?? false) && is_array($value)) {
-            return \Arr::map($value, fn ($item) => static::tryToParseClassProperty($item, $adapterClass));
+            return \Arr::map($value, fn ($item) => static::tryToParseClassProperty($item, $adapterClass, $pivotAdapterClass));
         }
 
-        return static::tryToParseClassProperty($value, $adapterClass);
+        return static::tryToParseClassProperty($value, $adapterClass, $pivotAdapterClass);
     }
 
     /**
      * @throws Exception
      */
-    protected static function tryToParseClassProperty($value, $type): mixed
+    protected static function tryToParseClassProperty($value, $type, $pivotAdapterClass = null): mixed
     {
         if (class_exists($type)) {
             if (method_exists($type, 'fromArray') ?? is_array($value)) {
-                return $type::fromArray($value);
+                return static::setPivot($type::fromArray($value), $value['pivot'] ?? [], $pivotAdapterClass);
             } elseif (method_exists($type, 'from')) {
                 return $type::from($value);
             }
@@ -228,6 +243,21 @@ abstract class BaseAdapter
         }
 
         return null;
+    }
+
+    protected static function setPivot(mixed $object, $pivotData, $pivotAdapterClass): mixed
+    {
+        if (empty($pivotAdapterClass)) {
+            return $object;
+        }
+
+        if (! class_exists($pivotAdapterClass) || !method_exists($pivotAdapterClass, 'fromArray')) {
+            return $object;
+        }
+
+        $object->pivot = $pivotAdapterClass::fromArray($pivotData);
+
+        return $object;
     }
 
     /**
@@ -330,6 +360,8 @@ abstract class BaseAdapter
 
         $api = $relationClass::getApi(BelongsToMany::class);
 
+        $api->setParentItem($this, $this->getCallerFunction());
+
 
         if (!empty($parentKeyValue)) {
             $api->whereRaw("EXISTS(
@@ -340,6 +372,20 @@ abstract class BaseAdapter
         }
 
         return $api;
+    }
+
+    /**
+     * This function returns parent method name
+     * For example if I called domains() relation, which then called belongsToMany() method
+     * If we will call this method inside belongsToMany, it will return 'domains' as string.
+     * @return string|null
+     */
+    protected function getCallerFunction(): ?string
+    {
+        // Get all stack trace, but limit it to 3 records, and ignore arguments
+        $stackTrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, limit: 3);
+        // Return third element function name
+        return $stackTrace[2]['function'] ?? null;
     }
 
     /**
