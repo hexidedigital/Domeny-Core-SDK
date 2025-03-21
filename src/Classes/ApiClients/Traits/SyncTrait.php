@@ -13,6 +13,11 @@ trait SyncTrait
         return $this->runRelationChangeData('syncWithoutDetaching', $this->_parentItem, $this->_parentRelation, $ids, rawResult: true);
     }
 
+    public function sync($id)
+    {
+        return $this->runRelationChangeData('sync', $this->_parentItem, $this->_parentRelation, $id, rawResult: true);
+    }
+
     public function detach($id)
     {
         return $this->runRelationChangeData('detach', $this->_parentItem, $this->_parentRelation, $id, rawResult: true);

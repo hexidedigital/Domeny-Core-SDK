@@ -12,6 +12,7 @@ use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\BelongsToMany;
 use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\HasMany;
 use Hexidedigital\DomenyCoreSdk\Classes\ApiClients\HasOne;
 use Hexidedigital\DomenyCoreSdk\Exceptions\ErrorResponseException;
+use Illuminate\Support\Facades\Log;
 use ReflectionClass;
 use Str;
 
@@ -80,7 +81,11 @@ abstract class BaseAdapter
             }
             $this->loadedRelations[$relationName] = $relationName;
             if (!empty($relation['relations'])) {
-                $this->{$relationName}?->markLoadedRelations($relation['relations']);
+                if (is_array($this->{$relationName})) {
+                    $this->{$relationName} = \Arr::map($this->{$relationName}, fn ($item) => $item?->markLoadedRelations($relation['relations']));
+                } else {
+                    $this->{$relationName}?->markLoadedRelations($relation['relations']);
+                }
             }
         }
 
