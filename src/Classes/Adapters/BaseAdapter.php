@@ -285,7 +285,8 @@ abstract class BaseAdapter
             throw new Exception("Class '$relationClass' does not have a getApi method");
         }
         $api = $relationClass::getApi(HasOne::class);
-        if (!empty($this->{$key})) {
+        $parentKey = $this->{$key} ?? null;
+        if (!empty($parentKey)) {
             $api = $api->setParentRelationData([$foreign_key => $this->{$key}])
                 ->where($foreign_key, $this->{$key})
                 ->limit(1);
@@ -314,7 +315,8 @@ abstract class BaseAdapter
             throw new Exception("Class '$relationClass' does not have a getApi method");
         }
         $api = $relationClass::getApi(HasMany::class);
-        if (!empty($this->{$key})) {
+        $parentKey = $this->{$key} ?? null;
+        if (!empty($parentKey)) {
             $api = $api->setParentRelationData([$foreign_key => $this->{$key}])
                 ->where($foreign_key, $this->{$key});
         }
@@ -360,7 +362,7 @@ abstract class BaseAdapter
             $relatedPivotKey = $this->guessForeignKey($relationClass);
         }
 
-        $parentKeyValue = $this->{$parentKey};
+        $parentKeyValue = $this->{$parentKey} ?? null;
         $relatedTable = $this->guessTableNameFromClass($relationClass);
 
         $api = $relationClass::getApi(BelongsToMany::class);
@@ -414,7 +416,8 @@ abstract class BaseAdapter
         }
 
         $api = $relationClass::getApi(BelongsTo::class);
-        if (!empty($this->{$key})) {
+        $parentKey = $this->{$key} ?? null;
+        if (!empty($parentKey)) {
             $api = $api->setParentRelationData([$key => $this->{$foreign_key}])->where($key, $this->{$foreign_key});
         }
 
