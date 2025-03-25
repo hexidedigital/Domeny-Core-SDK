@@ -154,6 +154,17 @@ class BaseApiClient
         return $this;
     }
 
+    /**
+     * @param string $relationName
+     * @param $callback
+     * @param bool $not
+     * @return $this
+     */
+    public function orWhereHas(string $relationName, $callback = null, bool $not = false): static
+    {
+        return $this->orWhere(fn ($q) => $q->whereHas($relationName, $callback, $not));
+    }
+
     public function when(bool $condition, callable $callback): static
     {
         if ($condition) {
@@ -171,6 +182,16 @@ class BaseApiClient
     public function whereDoesntHave(string $relationName, $callback = null): static
     {
         return $this->whereHas($relationName, $callback, true);
+    }
+
+    /**
+     * @param string $relationName
+     * @param $callback
+     * @return $this
+     */
+    public function orWhereDoesntHave(string $relationName, $callback = null): static
+    {
+        return $this->orWhereHas($relationName, $callback, true);
     }
 
     /**
@@ -666,13 +687,23 @@ class BaseApiClient
             // This way we will recursively get parsed array of conditions.
             return [
                 'operator' => 'custom',
-                'value' => call_user_func($whereCondition['column'], ((new static())))->getConditions(),
+                'value' => call_user_func($whereCondition['column'], (new $this->adapterClass)->getApi())->getConditionsWithRelations(),
                 'boolean' => $whereCondition['boolean'],
             ];
         }
 
         // If we are not sure what the condition is, lets just try to parse it for now.
         return $this->parseConditionValues($whereCondition);
+    }
+
+    public function getConditionsWithRelations(): array
+    {
+        $conditions = $this->getConditions();
+        $whereHas = $this->getWhereHas();
+        return [
+            'conditions' => $conditions,
+            'whereHas' => $whereHas,
+        ];
     }
 
     protected function parseConditionValues(array $whereCondition): array
