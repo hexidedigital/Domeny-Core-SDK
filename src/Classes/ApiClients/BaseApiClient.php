@@ -21,8 +21,13 @@ use Str;
  */
 class BaseApiClient
 {
+    protected const EXECUTION_TYPE_WHERE_HAS = 'whereHas';
+    protected const EXECUTION_TYPE_CONDITION = 'condition';
+
     protected Client $client;
     public static ?int $__apiSdkUserId = null;
+
+    private int $__executionOrder = 1;
 
     protected array $rawResponseMethods = [
         'exists',
@@ -89,12 +94,14 @@ class BaseApiClient
     {
         $this->parentRelationData = [];
         $this->whereConditions = [];
+        $this->whereHasRelation = [];
         $this->loadingRelations = [];
         $this->order = [];
         $this->limit = null;
         $this->select = [];
         $this->_parentItem = null;
         $this->_parentRelation = null;
+        $this->__executionOrder = 1;
 
         return $this;
     }
@@ -147,6 +154,8 @@ class BaseApiClient
     public function whereHas(string $relationName, $callback = null, bool $not = false): static
     {
         $this->whereHasRelation[] = [
+            'executionType' => static::EXECUTION_TYPE_WHERE_HAS,
+            'executionOrder' => $this->executionOrderForCurrentOperation(),
             'relation' => $relationName,
             'callback' => $callback,
             'not' => $not,
@@ -220,6 +229,8 @@ class BaseApiClient
 
             if (is_null($relation['callback']) || !is_callable($relation['callback'])) {
                 $whereHas[] = [
+                    'executionType' => $relation['executionType'] ?? static::EXECUTION_TYPE_WHERE_HAS,
+                    'executionOrder' => $relation['executionOrder'] ?? INF,
                     'relation' => $relationName,
                     'not' => $relation['not'] ?? false,
                 ];
@@ -232,6 +243,8 @@ class BaseApiClient
             $apiClient = call_user_func($relation['callback'], (new $this->adapterClass)->{$relationName}());
 
             $whereHas[] = [
+                'executionType' => $relation['executionType'] ?? static::EXECUTION_TYPE_WHERE_HAS,
+                'executionOrder' => $relation['executionOrder'] ?? INF,
                 'relation' => $relationName,
                 'conditions' => $apiClient->getConditions(),
                 'whereHas' => $apiClient->getWhereHas(),
@@ -265,7 +278,7 @@ class BaseApiClient
             $relations = $this->getRelations();
             $order = $this->getOrder();
             $limit = $this->getLimit();
-            $whereHas = $this->getWhereHas();
+//            $whereHas = $this->getWhereHas();
             $select = $this->getSelect();
 
             $response = $this->client->post($this->apiPath, [
@@ -273,7 +286,7 @@ class BaseApiClient
                     'conditions' => $conditions,
                     'query_method' => $query_method,
                     'relations' => $relations,
-                    'whereHas' => $whereHas,
+//                    'whereHas' => $whereHas,
                     'order' => $order,
                     'limit' => $limit,
                     'select' => $select,
@@ -662,7 +675,7 @@ class BaseApiClient
      */
     public function getConditions(): array
     {
-        $conditions = [];
+        $conditions = $this->getWhereHas();
         foreach ($this->whereConditions as $whereCondition) {
             $conditions[] = $this->parseConditions($whereCondition);
         }
@@ -687,7 +700,7 @@ class BaseApiClient
             // This way we will recursively get parsed array of conditions.
             return [
                 'operator' => 'custom',
-                'value' => call_user_func($whereCondition['column'], (new $this->adapterClass)->getApi())->getConditionsWithRelations(),
+                'value' => call_user_func($whereCondition['column'], (new $this->adapterClass)->getApi())->getConditions(),
                 'boolean' => $whereCondition['boolean'],
             ];
         }
@@ -696,15 +709,15 @@ class BaseApiClient
         return $this->parseConditionValues($whereCondition);
     }
 
-    public function getConditionsWithRelations(): array
-    {
-        $conditions = $this->getConditions();
-        $whereHas = $this->getWhereHas();
-        return [
-            'conditions' => $conditions,
-            'whereHas' => $whereHas,
-        ];
-    }
+//    public function getConditionsWithRelations(): array
+//    {
+//        $conditions = $this->getConditions();
+//        $whereHas = $this->getWhereHas();
+//        return [
+//            'conditions' => $conditions,
+//            'whereHas' => $whereHas,
+//        ];
+//    }
 
     protected function parseConditionValues(array $whereCondition): array
     {
@@ -760,6 +773,8 @@ class BaseApiClient
 
         if (!empty($value)) {
             $this->whereConditions[] = [
+                'executionType' => 'condition',
+                'executionOrder' => $this->executionOrderForCurrentOperation(),
                 'column' => $column,
                 'operator' => $operator,
                 'value' => $value,
@@ -768,6 +783,8 @@ class BaseApiClient
             ];
         } else {
             $this->whereConditions[] = [
+                'executionType' => 'condition',
+                'executionOrder' => $this->executionOrderForCurrentOperation(),
                 'column' => $column,
                 'operator' => null,
                 'value' => null,
@@ -1002,6 +1019,11 @@ class BaseApiClient
     private function hookers()
     {
         return 'hookers';
+    }
+
+    private function executionOrderForCurrentOperation(): int
+    {
+        return $this->__executionOrder++;
     }
 
     public function __call(string $name, array $arguments)
