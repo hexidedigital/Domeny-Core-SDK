@@ -41,6 +41,7 @@ class BaseApiClient
 
     protected array $whereHasRelation = [];
     protected array $loadingRelations = [];
+    protected array $countRelations = [];
     protected array $order = [];
     protected array $select = [];
     protected ?int $limit = null;
@@ -276,6 +277,7 @@ class BaseApiClient
         try {
             $conditions = $this->getConditions();
             $relations = $this->getRelations();
+            $countRelations = $this->getCountRelations();
             $order = $this->getOrder();
             $limit = $this->getLimit();
 //            $whereHas = $this->getWhereHas();
@@ -286,6 +288,7 @@ class BaseApiClient
                     'conditions' => $conditions,
                     'query_method' => $query_method,
                     'relations' => $relations,
+                    'count_relations' => $countRelations,
 //                    'whereHas' => $whereHas,
                     'order' => $order,
                     'limit' => $limit,
@@ -670,6 +673,39 @@ class BaseApiClient
         return $relations;
     }
 
+
+    /**
+     * @return array
+     */
+    public function getCountRelations(): array
+    {
+        $relations = [];
+        foreach ($this->countRelations as $relationData) {
+            foreach ($relationData as $relation => $closure) {
+                if (is_numeric($relation) && is_string($closure)) {
+                    $relation = $closure;
+                    $closure = null;
+                }
+
+                if (is_null($closure) || !is_callable($closure)) {
+                    $relations[] = ['relation' => $relation, 'closure' => null];
+                    continue;
+                }
+
+                $query = call_user_func($closure, new static);
+
+                $relations[] = [
+                    'relation' => $relation,
+                    'conditions' => $query->getConditions(),
+                    'order' => $query->getOrder(),
+                    'limit' => $this->getLimit(),
+                ];
+            }
+        }
+
+        return $relations;
+    }
+
     /**
      * @return array
      */
@@ -755,6 +791,14 @@ class BaseApiClient
             $this->loadingRelations[] = $relations;
         } else {
             $this->loadingRelations[] = [$relations => $callback];
+        }
+        return $this;
+    }
+
+    public function withCount($relations): static
+    {
+        if (is_array($relations)) {
+            $this->countRelations[] = $relations;
         }
         return $this;
     }

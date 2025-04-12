@@ -141,6 +141,14 @@ abstract class BaseAdapter
             ) {
                 $relation = $object->{$method->name}();
                 $adapter = $relation->adapterClass ?? null;
+
+                // region Set count relations (withCount method return)
+                $countName = Str::snake($method->name) . '_count';
+                if (isset($data[$countName])) {
+                    $object->{$countName} = $data[$countName];
+                }
+                // endregion
+
                 if (! isset($data[Str::snake($method->name)])) {
                     continue;
                 }
