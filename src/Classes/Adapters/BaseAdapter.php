@@ -149,6 +149,13 @@ abstract class BaseAdapter
                 }
                 // endregion
 
+                // region Set exists relations (withExists method return)
+                $countName = Str::snake($method->name) . '_exists';
+                if (isset($data[$countName])) {
+                    $object->{$countName} = (bool) $data[$countName];
+                }
+                // endregion
+
                 if (! isset($data[Str::snake($method->name)])) {
                     continue;
                 }
