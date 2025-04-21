@@ -144,19 +144,19 @@ abstract class BaseAdapter
 
                 // region Set count relations (withCount method return)
                 $countName = Str::snake($method->name) . '_count';
-                if (isset($data[$countName])) {
+                if (key_exists($countName, $data)) {
                     $object->{$countName} = $data[$countName];
                 }
                 // endregion
 
                 // region Set exists relations (withExists method return)
-                $countName = Str::snake($method->name) . '_exists';
-                if (isset($data[$countName])) {
-                    $object->{$countName} = (bool) $data[$countName];
+                $existsName = Str::snake($method->name) . '_exists';
+                if (key_exists($existsName, $data)) {
+                    $object->{$existsName} = (bool) $data[$existsName];
                 }
                 // endregion
 
-                if (! isset($data[Str::snake($method->name)])) {
+                if (! key_exists(Str::snake($method->name), $data)) {
                     continue;
                 }
                 $value = $data[Str::snake($method->name)];
