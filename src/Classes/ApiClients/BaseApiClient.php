@@ -815,7 +815,7 @@ class BaseApiClient
     {
         [$operator, $value] = $this->parseOperators($operator, $value, func_num_args());
 
-        if (!empty($value)) {
+        if (!blank($value)) {
             $this->whereConditions[] = [
                 'executionType' => 'condition',
                 'executionOrder' => $this->executionOrderForCurrentOperation(),
@@ -848,7 +848,7 @@ class BaseApiClient
      */
     protected function parseOperators($operator, $value, $numArgs): array
     {
-        if (is_null($value) && !empty($operator) && $numArgs === 2) {
+        if (is_null($value) && !blank($operator) && $numArgs === 2) {
             $value = $operator;
             $operator = '=';
         }
