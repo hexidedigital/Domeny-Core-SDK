@@ -44,6 +44,7 @@ class BaseApiClient
     protected array $countRelations = [];
     protected array $existsRelations = [];
     protected array $order = [];
+    protected array $joins = [];
     protected array $select = [];
     protected ?int $limit = null;
 
@@ -69,10 +70,25 @@ class BaseApiClient
             'whereConditions' => $this->whereConditions,
             'whereHasRelation' => $this->whereHasRelation,
             'loadingRelations' => $this->loadingRelations,
-            'order' => $this->order,
+            'order' => $this->parseOrder(),
             'limit' => $this->limit,
             'select' => $this->select,
         ];
+    }
+
+    public function parseOrder(): array
+    {
+        $result = [];
+        foreach ($this->order as $order) {
+            if ($this->isRawValue($order['column'])) {
+                $order['column'] = $order['column']->value;
+                $order['raw_column'] = true;
+            }
+
+            $result[] = $order;
+        }
+
+        return $result;
     }
 
     public function __construct(string $type = '', ?string $adapterClass = null, ?string $apiPath = null, array $parentData = [])
@@ -293,9 +309,10 @@ class BaseApiClient
                     'count_relations' => $countRelations,
                     'exists_relations' => $existsRelations,
 //                    'whereHas' => $whereHas,
-                    'order' => $order,
+                    'order' => $this->parseOrder(),
                     'limit' => $limit,
                     'select' => $select,
+                    'joins' => $this->joins,
                     ...$additional
                 ],
                 'headers' => $this->getHeaders()
@@ -640,7 +657,7 @@ class BaseApiClient
      */
     public function getOrder(): array
     {
-        return $this->order;
+        return $this->parseOrder();
     }
 
     /**
@@ -1068,6 +1085,19 @@ class BaseApiClient
     public function orderByDesc($column): static
     {
         return $this->orderBy($column, 'desc');
+    }
+
+    public function join(string $tableName, string $first, string $operator, string $second, string $type = 'inner')
+    {
+        $this->joins[] = [
+            'table' => $tableName,
+            'first' => $first,
+            'operator' => $operator,
+            'second' => $second,
+            'type' => $type,
+        ];
+
+        return $this;
     }
 
     /**
