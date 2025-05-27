@@ -834,8 +834,11 @@ class BaseApiClient
      */
     protected function isSimpleCondition(array $whereCondition): bool
     {
-        return !is_callable($whereCondition['column'])
-            && (!is_array($whereCondition['value'] ?? null) || $whereCondition['operator'] == 'in');
+        return is_string($whereCondition['column'])
+            || (
+                !is_callable($whereCondition['column'])
+                && (!is_array($whereCondition['value'] ?? null) || $whereCondition['operator'] == 'in')
+            );
     }
 
     public function with($relations, $callback = null): static
