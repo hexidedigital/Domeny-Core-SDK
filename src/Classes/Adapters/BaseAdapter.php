@@ -223,6 +223,7 @@ abstract class BaseAdapter
             'string'    => (string)$value,
             'bool'      => (bool)$value,
             'array'     => (array)$value,
+            'float' => floatval($value),
 
             Carbon::class       => Carbon::parse($value),
 
