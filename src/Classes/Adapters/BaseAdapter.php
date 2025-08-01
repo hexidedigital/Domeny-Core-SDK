@@ -124,9 +124,14 @@ abstract class BaseAdapter
             if ($selfReflect->hasProperty($property->name)) {
                 continue;
             }
+            $propertyType = $property->getType()?->getName();
+
+            if (empty($propertyType)) {
+                continue;
+            }
             $object->{$property->name} = static::parseProperty(
                 $data[$property->name] ?? null,
-                $property->getType()->getName()
+                $propertyType,
             );
         }
 
